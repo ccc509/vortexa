@@ -1,0 +1,1 @@
+export const ZOOM_MAP = "ZOOM_MAP";
