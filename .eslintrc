@@ -1,0 +1,102 @@
+{
+  "extends": [
+    "airbnb"
+  ],
+  "env": {
+    "browser": true,
+    "jasmine": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  },
+  "plugins": ["react-hooks"],
+  "rules": {
+    "array-callback-return": 0,
+    "arrow-parens": 0, // TODO: do not disable "arrow-parens" rule
+    "camelcase": [
+      "warn",
+      { "allow": ["formatDate_D_MMM_HH_mm", "formatDate_DD_MMM_YYYY_h_mm"] }
+    ],
+    "class-methods-use-this": 0,
+    "comma-dangle": [
+      "off",
+      { "objects": "always-multiline", "imports": "only-multiline" }
+    ],
+    "consistent-return": 0,
+    "curly": "off",
+    "eqeqeq": "warn",
+    "function-paren-newline": "off",
+    "generator-star-spacing": 0,
+    "global-require": 0,
+    "guard-for-in": "warn",
+    "implicit-arrow-linebreak": "off",
+    "import/no-duplicates": "warn",
+    "import/prefer-default-export": 0,
+    "indent": "off",
+    "jsx-a11y/anchor-is-valid": "warn",
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/no-autofocus": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "jsx-a11y/no-noninteractive-tabindex": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "max-len": ["error", { "code": 150 }],
+    "nonblock-statement-body-position": "off",
+    "no-case-declarations": 0,
+    "no-confusing-arrow": "off",
+    "no-console": 0,
+    "no-empty-function": 0,
+    "no-extra-boolean-cast": 0,
+    "no-fallthrough": "warn",
+    "no-global-assign": "warn",
+    "no-loop-func": "warn",
+    "no-nested-ternary": 0,
+    "no-param-reassign": [2, { "props": false }],
+    "no-plusplus": 0,
+    "no-restricted-globals": 0,
+    "no-restricted-syntax": [0, "ForInStatement", "ForOfStatement"],
+    "no-shadow": 0,
+    "no-underscore-dangle": 0,
+    "no-unused-vars": "off", // The TS one is enabled,
+    "no-useless-escape": "warn",
+    "no-use-before-define": ["error", "nofunc"],
+    "object-curly-newline": "off",
+    "operator-linebreak": "off",
+    "prefer-destructuring": 0,
+    "quotes": ["off", "double"],
+    "react/destructuring-assignment": 0,
+    "react/forbid-prop-types": "warn",
+    "react/jsx-filename-extension": [
+      1,
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    ],
+    "react/jsx-curly-newline": "off",
+    "react/jsx-indent": "off",
+    "react/jsx-one-expression-per-line": 0,
+    "react/no-array-index-key": 0,
+    "react/no-danger": 0,
+    "react/no-did-update-set-state": "warn",
+    "react/no-find-dom-node": "warn",
+    "react/no-unescaped-entities": "warn",
+    "react/prop-types": 0,
+    "react/jsx-props-no-spreading": 0,
+    "react/jsx-wrap-multilines": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/sort-comp": 0,
+    "react/state-in-constructor": 0,
+    "semi": [2, "always"],
+    "lines-between-class-members": [
+      "error",
+      "always",
+      { "exceptAfterSingleLine": true }
+    ],
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/no-use-before-define": 0, // TODO: enable this and fix errors
+    "@typescript-eslint/adjacent-overload-signatures": 0, // TODO: enable this and fix errors
+    "@typescript-eslint/camelcase": 0 // TODO: enable this and fix errors
+  }
+}

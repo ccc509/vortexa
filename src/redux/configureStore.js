@@ -1,11 +1,5 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore } from "redux";
 import rootReducer from "./reducers";
-import reduxImmutableStateInvariant from "redux-immutable-state-invariant";
-
-export default function congifureStore(initialState){
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-  return createStore(
-      rootReducer, 
-      initialState);
+export default function congifureStore(initialState) {
+  return createStore(rootReducer, initialState);
 }

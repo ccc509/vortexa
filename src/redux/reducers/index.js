@@ -1,6 +1,5 @@
-import { combineReducers } from "redux";
 import boatMapReducer from "./boatMapReducer";
 
-const rootReducer = combineReducers({ boatMapReducer });
+const rootReducer = boatMapReducer;
 
-export default rootReducer
+export default rootReducer;

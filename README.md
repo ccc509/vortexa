@@ -1,68 +1,41 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Vortexa Task
 
-## Available Scripts
+## Install and run
 
-In the project directory, you can run:
+### Requirements
+ - Node.js, can be downloaded here: https://nodejs.org/en/download/
+ - npm (package manager for Node.js) - version 6.9.0 or higher is needed
 
-### `yarn start`
+Once cloned the repo, go to the folder and execute the command below to install all packages.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+npm install
+```
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Once the installation is complete, run the command below to start to web app.
 
-### `yarn test`
+```
+npm start
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features explained
 
-### `yarn build`
+When the application is started, you can see all ramps displayed on the map.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+In the right panel, you will see the number of ramps per each construction material and size on the screen. When you zoom in and out, number of ramps on the screen changed which triggers changed in right panel.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+If you want to filter ramps by construction material or size, simple click the property (the left column in the table) once a property is selected, the background colour will be changed to green. Click the Clear Selection button to unselect.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Code style
 
-### `yarn eject`
+In order to ensure the code has a level of clarity that makes reading and maintaining easier for anyone who has to work on it, ESLint is configured and used. The JavaScript Style Guide used for this web app is Airbnb. Prettier is also used to make code look better. Scripts below have configured. Details of each script can be found in the file `package.json`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+npm run lint
+npm run lint-fix
+npm run lint-fix-win
+npm run lint-prettier
+npm run lint-prettier-fix
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+PS do not use `npm run lint-fix-win` on Mac, use `npm run lint-fix` instead

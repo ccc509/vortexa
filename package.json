@@ -7,6 +7,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "leaflet": "^1.6.0",
+    "object-hash": "^2.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-leaflet": "^2.7.0",
@@ -19,7 +20,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint-fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
+    "lint-fix-win": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
+    "lint-prettier": "prettier --check \"src/**/*.{css,js,jsx,ts,tsx,scss}\"",
+    "lint-prettier-fix": "prettier --write \"src/**/*.{css,js,jsx,ts,tsx,scss}\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,5 +40,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^7.6.0",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.0.5"
   }
 }
