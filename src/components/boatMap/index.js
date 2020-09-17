@@ -8,12 +8,15 @@ import hash from "object-hash";
 
 function BoatMap(props) {
   const handleZooming = (e) => {
+    console.log(typeof e);
     props.dispatch(bootMapActions.zoomMap(e.target.getBounds()));
   };
 
   const getCentreOfView = () => {
     const latitudes = [];
     const longitudes = [];
+    console.log(latitudes);
+    console.log(longitudes);
     props.rampsInTheMap.forEach((feature) => {
       feature.geometry.coordinates[0][0].forEach((c) => {
         latitudes.push(c[0]);

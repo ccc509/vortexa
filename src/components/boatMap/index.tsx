@@ -2,21 +2,25 @@ import React from "react";
 import { Map, TileLayer, GeoJSON } from "react-leaflet";
 import "./style.css";
 import { connect } from "react-redux";
-import * as bootMapActions from "../../redux/actions/boatMapActions";
+import { bindActionCreators } from "redux";
+import {zoomMap} from "../../redux/actions/boatMapActions";
 import boatData from "../../data/boat_ramps.json";
 import hash from "object-hash";
 
 type Props = {
-};
+    rampsInTheMap : any[]
+}
 
-function BoatMap(props : {rampsInTheMap:any[]}) {
-  const handleZooming = (e: React.MouseEvent) => {
-    props.dispatch(bootMapActions.zoomMap(e.target.getBounds()));
+function BoatMap(props : Props) {
+  const handleZooming = (e : any) => {
+    zoomMap(e.target.getBounds());
   };
 
   const getCentreOfView = () => {
     const latitudes : number[] = [];
     const longitudes : number[] = [];
+    console.log(latitudes);
+    console.log(longitudes);
     props.rampsInTheMap.forEach((feature) => {
       feature.geometry.coordinates[0][0].forEach((c) => {
         latitudes.push(c[0]);
@@ -41,7 +45,20 @@ function BoatMap(props : {rampsInTheMap:any[]}) {
   );
 }
 
-function mapStateToProps(state : {rampsInTheMap :any[]}) {
+function mapStateToProps(
+    state : {
+        rampsInTheMap: {
+            features: {
+                type:string, 
+                id:string, 
+                geometry: {
+                    type: string,
+                    coordinates: any
+                }
+            }
+        }
+    }
+    ) {
   return {
     rampsInTheMap: state.rampsInTheMap
       ? state.rampsInTheMap
@@ -49,4 +66,12 @@ function mapStateToProps(state : {rampsInTheMap :any[]}) {
   };
 }
 
-export default connect(mapStateToProps)(BoatMap);
+const mapDispatchToProps = (dispatch: any) =>
+  bindActionCreators(
+    {
+        zoomMap
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(BoatMap);
