@@ -7,6 +7,10 @@ import {
 import boatData from "../../data/boat_ramps.json";
 
 const initialState = {
+
+  // selectedMaterial: '',
+  // features: boatData.features
+
   rampsInTheMap: boatData.features,
   rampsInTheView: boatData.features,
 };

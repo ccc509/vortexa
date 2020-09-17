@@ -1,40 +1,39 @@
-import React, { useState } from "react";
 import "./style.css";
-import { connect } from "react-redux";
+
+import React, { useState } from "react";
 import {
+  clearSelection,
   selectMaterial,
   selectSize,
-  clearSelection,
 } from "../../redux/actions/boatMapActions";
-import boatData from "../../data/boat_ramps.json";
-import { globalState, features } from "../../constants/type-helpers";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { features, globalState } from "../../constants/type-helpers";
+
 import { bindActionCreators } from "redux";
+import boatData from "../../data/boat_ramps.json";
 
-type Props = {
-  rampsInTheMap: features[];
-  rampsInTheView: features[];
-  selectMaterial: (material: string) => void;
-  selectSize: (size: string) => void;
-  clearSelection: () => void;
-};
-
-function RightPanel(props: Props) {
+const RightPanel = () => {
   const [selectedAttribute, setSelectedAttribute] = useState<string | null>(
     null
   );
+  const ramplInTheMap = useSelector((state: globalState) => {
+    state.rampsInTheMap.filter(w => w.properties.material === state.selectedMaterial)
+  }); 
+  const rampsInTheView = useSelector((state: globalState) => state.rampsInTheView? state.rampsInTheView: boatData.features); 
+  const dispatch = useDispatch();
 
   const handleMaterialPropertyClick = (property: string) => {
-    props.selectMaterial(property);
+    dispatch(selectMaterial(property));
     setSelectedAttribute(property);
   };
 
   const handleSizePropertyClick = (property: string) => {
-    props.selectSize(property);
+    dispatch(selectSize(property));
     setSelectedAttribute(property);
   };
 
   const clearPropertySelection = () => {
-    props.clearSelection();
+    dispatch(clearSelection());
     setSelectedAttribute(null);
   };
 
@@ -134,26 +133,5 @@ function RightPanel(props: Props) {
   );
 }
 
-function mapStateToProps(state: globalState) {
-  return {
-    rampsInTheMap: state.rampsInTheMap
-      ? state.rampsInTheMap
-      : boatData.features,
-    rampsInTheView: state.rampsInTheView
-      ? state.rampsInTheView
-      : boatData.features,
-  };
-}
 
-function mapDispatchToProps(dispatch: any) {
-  bindActionCreators(
-    {
-      selectMaterial,
-      selectSize,
-      clearSelection,
-    },
-    dispatch
-  );
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RightPanel);
+export { RightPanel };

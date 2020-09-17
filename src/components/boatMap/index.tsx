@@ -6,22 +6,22 @@ import { bindActionCreators } from "redux";
 import { zoomMap } from "../../redux/actions/boatMapActions";
 import boatData from "../../data/boat_ramps.json";
 import hash from "object-hash";
-import { globalState } from "../../constants/type-helpers";
+import { feature, globalState } from "../../constants/type-helpers";
 
 type Props = {
-  rampsInTheMap: any[];
-  zoomMap: (bounds: any) => void;
+  rampsInTheMap: any;
+  //zoomMap: (bounds: any) => void;
 };
 
 function BoatMap(props: Props) {
   const handleZooming = (e: any) => {
-    props.zoomMap(e.target.getBounds());
+    //props.zoomMap(e.target.getBounds());
   };
 
   const getCentreOfView = (): [number, number] => {
     const latitudes: number[] = [];
     const longitudes: number[] = [];
-    props.rampsInTheMap.forEach((feature) => {
+    props.rampsInTheMap.forEach((feature : feature) => {
       feature.geometry.coordinates[0][0].forEach((c: number[]) => {
         latitudes.push(c[0]);
         longitudes.push(c[1]);
@@ -48,8 +48,8 @@ function BoatMap(props: Props) {
 function mapStateToProps(state: globalState) {
   return {
     rampsInTheMap: state.rampsInTheMap
-      ? state.rampsInTheMap
-      : boatData.features,
+      // ? state.rampsInTheMap
+      // : boatData.features,
   };
 }
 
@@ -62,4 +62,5 @@ function mapDispatchToProps(dispatch: any) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BoatMap);
+//export default connect(mapStateToProps, mapDispatchToProps)(BoatMap);
+export default connect(mapStateToProps)(BoatMap);
