@@ -1,28 +1,34 @@
 import React, { useState } from "react";
 import "./style.css";
 import { connect } from "react-redux";
-import {selectMaterial, selectSize, clearSelection} from "../../redux/actions/boatMapActions";
+import {
+  selectMaterial,
+  selectSize,
+  clearSelection,
+} from "../../redux/actions/boatMapActions";
 import boatData from "../../data/boat_ramps.json";
 import { globalState, features } from "../../constants/type-helpers";
 import { bindActionCreators } from "redux";
 
 type Props = {
-    rampsInTheMap : features[],
-    rampsInTheView: features[],
-    selectMaterial: (material: string) => void,
-    selectSize: (size: string) => void,
-    clearSelection: () => void
-}
+  rampsInTheMap: features[];
+  rampsInTheView: features[];
+  selectMaterial: (material: string) => void;
+  selectSize: (size: string) => void;
+  clearSelection: () => void;
+};
 
-function RightPanel(props : Props) {
-  const [selectedAttribute, setSelectedAttribute] = useState<string | null>(null);
+function RightPanel(props: Props) {
+  const [selectedAttribute, setSelectedAttribute] = useState<string | null>(
+    null
+  );
 
-  const handleMaterialPropertyClick = (property : string) => {
+  const handleMaterialPropertyClick = (property: string) => {
     props.selectMaterial(property);
     setSelectedAttribute(property);
   };
 
-  const handleSizePropertyClick = (property : string) => {
+  const handleSizePropertyClick = (property: string) => {
     props.selectSize(property);
     setSelectedAttribute(property);
   };
@@ -32,13 +38,13 @@ function RightPanel(props : Props) {
     setSelectedAttribute(null);
   };
 
-  const getNumOfRampsInRange = (min : number, max : number) => {
+  const getNumOfRampsInRange = (min: number, max: number) => {
     return props.rampsInTheView.filter(
       (r) => r.properties.area_ >= min && r.properties.area_ < max
     ).length;
   };
 
-  const getNumOfRampsWithMaterial = (material : string) => {
+  const getNumOfRampsWithMaterial = (material: string) => {
     return props.rampsInTheView.filter(
       (r) => r.properties.material === material
     ).length;
@@ -128,7 +134,7 @@ function RightPanel(props : Props) {
   );
 }
 
-function mapStateToProps(state : globalState) {
+function mapStateToProps(state: globalState) {
   return {
     rampsInTheMap: state.rampsInTheMap
       ? state.rampsInTheMap
@@ -140,14 +146,14 @@ function mapStateToProps(state : globalState) {
 }
 
 function mapDispatchToProps(dispatch: any) {
-    bindActionCreators(
-      {
-        selectMaterial, 
-        selectSize, 
-        clearSelection
-      },
-      dispatch
-    );
-  }
+  bindActionCreators(
+    {
+      selectMaterial,
+      selectSize,
+      clearSelection,
+    },
+    dispatch
+  );
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(RightPanel);
