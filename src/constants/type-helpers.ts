@@ -1,10 +1,6 @@
 export type globalState = {
-  rampsInTheMap: {
-    features: feature[];
-  };
-  rampsInTheView: {
-    features: feature[];
-  };
+  rampsInTheMap: feature[]
+  rampsInTheView: feature[]
 };
 
 export type feature = {

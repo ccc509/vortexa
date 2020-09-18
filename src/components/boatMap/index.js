@@ -1,49 +1,45 @@
-import React from "react";
-import { Map, TileLayer, GeoJSON } from "react-leaflet";
-import "./style.css";
-import { connect } from "react-redux";
-import * as bootMapActions from "../../redux/actions/boatMapActions";
-import boatData from "../../data/boat_ramps.json";
-import hash from "object-hash";
-
+"use strict";
+exports.__esModule = true;
+var react_1 = require("react");
+var react_leaflet_1 = require("react-leaflet");
+require("./style.css");
+var react_redux_1 = require("react-redux");
+var redux_1 = require("redux");
+var boatMapActions_1 = require("../../redux/actions/boatMapActions");
+var object_hash_1 = require("object-hash");
 function BoatMap(props) {
-  const handleZooming = (e) => {
-    props.dispatch(bootMapActions.zoomMap(e.target.getBounds()));
-  };
-
-  const getCentreOfView = () => {
-    const latitudes = [];
-    const longitudes = [];
-    props.rampsInTheMap.forEach((feature) => {
-      feature.geometry.coordinates[0][0].forEach((c) => {
-        latitudes.push(c[0]);
-        longitudes.push(c[1]);
-      });
-    });
-
-    const avgLatitude = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
-    const avgLongitude =
-      longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
-
-    return [avgLongitude, avgLatitude];
-  };
-  return (
-    <Map onzoomend={handleZooming} center={getCentreOfView()} zoom={10}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      />
-      <GeoJSON key={hash(props.rampsInTheMap)} data={props.rampsInTheMap} />
-    </Map>
-  );
+    var handleZooming = function (e) {
+        //props.zoomMap(e.target.getBounds());
+    };
+    var getCentreOfView = function () {
+        var latitudes = [];
+        var longitudes = [];
+        props.rampsInTheMap.forEach(function (feature) {
+            feature.geometry.coordinates[0][0].forEach(function (c) {
+                latitudes.push(c[0]);
+                longitudes.push(c[1]);
+            });
+        });
+        var avgLatitude = latitudes.reduce(function (a, b) { return a + b; }, 0) / latitudes.length;
+        var avgLongitude = longitudes.reduce(function (a, b) { return a + b; }, 0) / longitudes.length;
+        return [avgLongitude, avgLatitude];
+    };
+    return (<react_leaflet_1.Map onzoomend={handleZooming} center={getCentreOfView()} zoom={10}>
+      <react_leaflet_1.TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
+      <react_leaflet_1.GeoJSON key={object_hash_1["default"](props.rampsInTheMap)} data={props.rampsInTheMap}/>
+    </react_leaflet_1.Map>);
 }
-
 function mapStateToProps(state) {
-  return {
-    rampsInTheMap: state.rampsInTheMap
-      ? state.rampsInTheMap
-      : boatData.features,
-  };
+    return {
+        rampsInTheMap: state.rampsInTheMap
+        // ? state.rampsInTheMap
+        // : boatData.features,
+    };
 }
-
-export default connect(mapStateToProps)(BoatMap);
+function mapDispatchToProps(dispatch) {
+    redux_1.bindActionCreators({
+        zoomMap: boatMapActions_1.zoomMap
+    }, dispatch);
+}
+//export default connect(mapStateToProps, mapDispatchToProps)(BoatMap);
+exports["default"] = react_redux_1.connect(mapStateToProps)(BoatMap);
