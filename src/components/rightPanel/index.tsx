@@ -56,7 +56,7 @@ const RightPanel = () => {
 
   return (
     <div className="right-panel">
-      <div>Click property in the left column to filter</div>
+      <div>Click property xxx in the left column to filter</div>
 
       <table className="ramps-table">
         <thead>
