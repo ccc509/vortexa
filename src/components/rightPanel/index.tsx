@@ -135,5 +135,4 @@ const RightPanel = () => {
   );
 }
 
-
-export { RightPanel };
+export default connect()(RightPanel);

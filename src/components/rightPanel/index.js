@@ -19,7 +19,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RightPanel = void 0;
 require("./style.css");
 var react_1 = __importStar(require("react"));
 var boatMapActions_1 = require("../../redux/actions/boatMapActions");
@@ -85,4 +84,4 @@ var RightPanel = function () {
                     react_1.default.createElement("th", null, getNumOfRampsInRange(200, 526))))),
         react_1.default.createElement("button", { onClick: function () { return clearPropertySelection(); } }, "Clear Selection")));
 };
-exports.RightPanel = RightPanel;
+exports.default = react_redux_1.connect()(RightPanel);
