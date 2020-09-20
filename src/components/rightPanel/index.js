@@ -18,23 +18,20 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RightPanel = void 0;
 require("./style.css");
 var react_1 = __importStar(require("react"));
 var boatMapActions_1 = require("../../redux/actions/boatMapActions");
 var react_redux_1 = require("react-redux");
-var boat_ramps_json_1 = __importDefault(require("../../data/boat_ramps.json"));
+//import boatData from "../../data/boat_ramps.json";
 var RightPanel = function () {
     var _a = react_1.useState(null), selectedAttribute = _a[0], setSelectedAttribute = _a[1];
     // const ramplInTheMap : feature[] = useSelector((state: globalState) => {
     //   //state.rampsInTheMap.filter(w => w.properties.material === state.rampsInTheMap);
     //   state.rampsInTheMap;
     // }); 
-    var rampsInTheView = react_redux_1.useSelector(function (state) { return state.rampsInTheView ? state.rampsInTheView : boat_ramps_json_1.default.features; });
+    var rampsInTheView = react_redux_1.useSelector(function (state) { return state.rampsInTheView; });
     var dispatch = react_redux_1.useDispatch();
     var handleMaterialPropertyClick = function (property) {
         dispatch(boatMapActions_1.selectMaterial(property));
@@ -49,12 +46,14 @@ var RightPanel = function () {
         setSelectedAttribute(null);
     };
     var getNumOfRampsInRange = function (min, max) {
-        return rampsInTheView.filter(function (r) { return r.properties.area_ >= min && r.properties.area_ < max; }).length;
+        return rampsInTheView.features.filter(function (r) { return r.properties.area_ >= min && r.properties.area_ < max; }).length;
     };
     var getNumOfRampsWithMaterial = function (material) {
-        return rampsInTheView.filter(function (r) { return r.properties.material === material; }).length;
+        return rampsInTheView.features.filter(function (r) { return r.properties.material === material; }).length;
     };
-    var constructionMaterials = new Set(boat_ramps_json_1.default.features.map(function (r) { return r.properties.material; }));
+    var constructionMaterials = new Set(
+    //boatData.features.map((r:feature) => r.properties.material)
+    );
     return (react_1.default.createElement("div", { className: "right-panel" },
         react_1.default.createElement("div", null, "Click property xxx in the left column to filter"),
         react_1.default.createElement("table", { className: "ramps-table" },

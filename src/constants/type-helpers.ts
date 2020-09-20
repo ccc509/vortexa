@@ -1,9 +1,13 @@
-export type globalState = {
-  rampsInTheMap: feature[]
-  rampsInTheView: feature[]
+import { GeoJsonObject, GeoJSON } from "geojson";
+
+export type GlobalState = {
+  rampsInTheMap: GeoJSON.FeatureCollection<any>
+  rampsInTheView: GeoJSON.FeatureCollection<any>
+  selectedMaterials: string[]
+  selectedSizes: number[][]
 };
 
-export type feature = {
+export type Feature = {
   type: string;
   id: string;
   geometry: {
@@ -15,3 +19,9 @@ export type feature = {
     area_: number;
   };
 };
+
+export type Action = {
+  type: string,
+  material: string,
+  size: string
+}

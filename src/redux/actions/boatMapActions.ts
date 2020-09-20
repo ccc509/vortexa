@@ -5,21 +5,21 @@ import {
     CLEAR_SELECTION,
   } from "../actionTypes";
   
-  export function zoomMap(bounds) {
+  export function zoomMap(bounds: number[]) {
     return {
       type: ZOOM_MAP,
       bounds,
     };
   }
   
-  export function selectMaterial(material) {
+  export function selectMaterial(material : string) {
     return {
       type: SELECT_MATERIAL,
       material,
     };
   }
   
-  export function selectSize(size) {
+  export function selectSize(size : string) {
     return {
       type: SELECT_SIZE,
       size,

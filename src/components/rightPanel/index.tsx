@@ -7,10 +7,11 @@ import {
   selectSize,
 } from "../../redux/actions/boatMapActions";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { feature, globalState } from "../../constants/type-helpers";
+import { GlobalState } from "../../constants/type-helpers";
 
 import { bindActionCreators } from "redux";
-import boatData from "../../data/boat_ramps.json";
+import { GeoJsonObject, GeoJSON } from "geojson";
+//import boatData from "../../data/boat_ramps.json";
 
 const RightPanel = () => {
   const [selectedAttribute, setSelectedAttribute] = useState<string | null>(
@@ -20,7 +21,7 @@ const RightPanel = () => {
   //   //state.rampsInTheMap.filter(w => w.properties.material === state.rampsInTheMap);
   //   state.rampsInTheMap;
   // }); 
-  const rampsInTheView : feature[] = useSelector((state: globalState) => state.rampsInTheView? state.rampsInTheView: boatData.features); 
+  const rampsInTheView : GeoJSON.FeatureCollection<any> = useSelector((state: GlobalState) => state.rampsInTheView); 
   const dispatch = useDispatch();
 
   const handleMaterialPropertyClick = (property: string) => {
@@ -39,19 +40,19 @@ const RightPanel = () => {
   };
 
   const getNumOfRampsInRange = (min: number, max: number) => {
-    return rampsInTheView.filter(
-      (r : feature) => r.properties.area_ >= min && r.properties.area_ < max
+    return rampsInTheView.features.filter(
+      (r : any) => r.properties.area_ >= min && r.properties.area_ < max
     ).length;
   };
 
   const getNumOfRampsWithMaterial = (material: string) => {
-    return rampsInTheView.filter(
-      (r : feature) => r.properties.material === material
+    return rampsInTheView.features.filter(
+      (r : any) => r.properties.material === material
     ).length;
   };
 
-  const constructionMaterials = new Set(
-    boatData.features.map((r) => r.properties.material)
+  const constructionMaterials : Set<string> = new Set(
+    //boatData.features.map((r:feature) => r.properties.material)
   );
 
   return (

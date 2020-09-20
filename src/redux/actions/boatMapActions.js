@@ -1,33 +1,31 @@
-import {
-  ZOOM_MAP,
-  SELECT_MATERIAL,
-  SELECT_SIZE,
-  CLEAR_SELECTION,
-} from "../actionTypes";
-
-export function zoomMap(bounds) {
-  return {
-    type: ZOOM_MAP,
-    bounds,
-  };
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.clearSelection = exports.selectSize = exports.selectMaterial = exports.zoomMap = void 0;
+var actionTypes_1 = require("../actionTypes");
+function zoomMap(bounds) {
+    return {
+        type: actionTypes_1.ZOOM_MAP,
+        bounds: bounds,
+    };
 }
-
-export function selectMaterial(material) {
-  return {
-    type: SELECT_MATERIAL,
-    material,
-  };
+exports.zoomMap = zoomMap;
+function selectMaterial(material) {
+    return {
+        type: actionTypes_1.SELECT_MATERIAL,
+        material: material,
+    };
 }
-
-export function selectSize(size) {
-  return {
-    type: SELECT_SIZE,
-    size,
-  };
+exports.selectMaterial = selectMaterial;
+function selectSize(size) {
+    return {
+        type: actionTypes_1.SELECT_SIZE,
+        size: size,
+    };
 }
-
-export function clearSelection() {
-  return {
-    type: CLEAR_SELECTION,
-  };
+exports.selectSize = selectSize;
+function clearSelection() {
+    return {
+        type: actionTypes_1.CLEAR_SELECTION,
+    };
 }
+exports.clearSelection = clearSelection;
