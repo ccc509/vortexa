@@ -1,27 +1,17 @@
-import { GeoJsonObject, GeoJSON } from "geojson";
+import { LatLngBounds } from "leaflet";
 
 export type GlobalState = {
-  rampsInTheMap: GeoJSON.FeatureCollection<any>
-  rampsInTheView: GeoJSON.FeatureCollection<any>
-  selectedMaterials: string[]
-  selectedSizes: number[][]
-};
-
-export type Feature = {
-  type: string;
-  id: string;
-  geometry: {
-    type: string;
-    coordinates: number[][][][];
-  };
-  properties: {
-    material: string;
-    area_: number;
-  };
+  ramps: GeoJSON.FeatureCollection<any>;
+  materials: string[];
+  sizeIntervals: number[][];
+  selectedMaterials: string[];
+  selectedSizes: number[][];
+  bounds: LatLngBounds;
 };
 
 export type Action = {
-  type: string,
-  material: string,
-  size: string
-}
+  type: string;
+  material: string;
+  size: string;
+  bounds: LatLngBounds;
+};

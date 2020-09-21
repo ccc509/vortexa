@@ -1,3 +1,8 @@
+/* @import "~react-vis/dist/style";
+@import "~react-vis/dist/styles/legends"; */
+
+@import "../../../node_modules/react-vis/dist/style.css";
+
 .right-panel {
   width: 300px;
   text-align: left;

@@ -1,18 +1,21 @@
 import { createStore } from "redux";
 import rootReducer from "./reducers";
 import boatData from "../data/boat_ramps.json";
-import { GlobalState } from "../constants/type-helpers";
-
 
 export default function congifureStore() {
+  const ramps = boatData;
+  const materialSet = new Set(ramps.features.map((r) => r.properties.material));
 
   const initialState = {
-
-    // selectedMaterial: '',
-    // features: boatData.features
-  
-    rampsInTheMap: boatData,
-    rampsInTheView: boatData,
+    ramps,
+    materials: Array.from(materialSet),
+    sizeIntervals: [
+      [0, 50],
+      [50, 200],
+      [200, 526],
+    ],
+    selectedMaterials: [],
+    selectedSizes: [],
   };
 
   return createStore(rootReducer, initialState);
