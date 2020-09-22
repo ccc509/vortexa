@@ -1,43 +1,32 @@
-import React from "react";
-import { Map, TileLayer, GeoJSON } from "react-leaflet";
+import { GeoJSON, Map, TileLayer } from "react-leaflet";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./style.css";
-import { connect, useSelector, useDispatch } from "react-redux";
-import { zoomMap } from "../../redux/actions/boatMapActions";
-import hash from "object-hash";
 import { GlobalState } from "../../constants/type-helpers";
 import { getRampsToDisplay } from "../../constants/helper-functions";
+import hash from "object-hash";
+import { zoomMap } from "../../redux/actions/boatMapActions";
+import { MultiPolygon } from "geojson";
+//import {boatMapx} from "../../constants/styles";
 
 const getCentreOfView = (
-  rampsToDisplay: GeoJSON.FeatureCollection<any>
+  { features }: GeoJSON.FeatureCollection<MultiPolygon>
 ): [number, number] => {
-  const latitudes: number[] = [];
-  const longitudes: number[] = [];
-  rampsToDisplay.features.forEach((feature: any) => {
-    feature.geometry.coordinates[0][0].forEach((c: number[]) => {
-      latitudes.push(c[0]);
-      longitudes.push(c[1]);
-    });
-  });
-  const avgLatitude = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
-  const avgLongitude =
-    longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
-
-  return [avgLongitude, avgLatitude];
+  const avgLat = features.map(({ geometry }) => geometry.coordinates[0][0][0][0]).reduce((a, b) => a + b, 0) / features.length;
+  const avgLong = features.map(({ geometry }) => geometry.coordinates[0][0][0][1]).reduce((a, b) => a + b, 0) / features.length;
+  return [avgLong, avgLat];
 };
 
-function BoatMap() {
+const BoatMap = () => {
   const dispatch = useDispatch();
-  const handleZooming = (e: any) => {
-    dispatch(zoomMap(e.target.getBounds()));
-  };
-
-  const selectedMaterials: string[] = useSelector(
+  const boatMap = "boatMap";
+  const selectedMaterials = useSelector(
     (state: GlobalState) => state.selectedMaterials
   );
-  const selectedSizes: number[][] = useSelector(
+  const selectedSizes = useSelector(
     (state: GlobalState) => state.selectedSizes
   );
-  const allRamps: GeoJSON.FeatureCollection<any> = useSelector(
+  const allRamps = useSelector(
     (state: GlobalState) => state.ramps
   );
   const rampsToDisplay = getRampsToDisplay(
@@ -45,12 +34,27 @@ function BoatMap() {
     selectedMaterials,
     selectedSizes
   );
+  const [center, setCenter] = useState(getCentreOfView(allRamps));
+
+  useEffect(() => {
+    if (rampsToDisplay.features.length > 0) {
+      setCenter(getCentreOfView(rampsToDisplay))
+    }
+  }, []);
+
+  useEffect(() => {
+    if (rampsToDisplay.features.length > 0) {
+      setCenter(getCentreOfView(rampsToDisplay))
+    }
+  }, [rampsToDisplay.features.length]);
+
 
   return (
     <Map
-      onzoomend={handleZooming}
-      center={getCentreOfView(rampsToDisplay)}
+      onzoomend={e => dispatch(zoomMap(e.target.getBounds()))}
+      center={center}
       zoom={10}
+      className={boatMap}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -61,4 +65,4 @@ function BoatMap() {
   );
 }
 
-export default connect()(BoatMap);
+export { BoatMap };

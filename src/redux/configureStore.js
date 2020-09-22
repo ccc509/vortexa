@@ -1,6 +1,6 @@
+import boatData from "../data/boat_ramps.json";
 import { createStore } from "redux";
 import rootReducer from "./reducers";
-import boatData from "../data/boat_ramps.json";
 
 export default function congifureStore() {
   const ramps = boatData;
@@ -15,7 +15,7 @@ export default function congifureStore() {
       [200, 526],
     ],
     selectedMaterials: [],
-    selectedSizes: [],
+    selectedSizes: []
   };
 
   return createStore(rootReducer, initialState);

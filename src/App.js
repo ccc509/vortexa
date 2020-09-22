@@ -1,6 +1,7 @@
-import React from "react";
 import "./App.css";
-import BoatMap from "./components/boatMap";
+
+import { BoatMap } from "./components/boatMap";
+import React from "react";
 import RightPanel from "./components/rightPanel";
 
 function App() {

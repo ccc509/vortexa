@@ -26,32 +26,12 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("./style.css");
 var react_1 = __importStar(require("react"));
 var boatMapActions_1 = require("../../redux/actions/boatMapActions");
 var react_redux_1 = require("react-redux");
 var react_vis_1 = require("react-vis");
 var helper_functions_1 = require("../../constants/helper-functions");
-var react_jss_1 = require("react-jss");
-var useStyles = react_jss_1.createUseStyles({
-    myButton: {
-        color: 'green',
-        margin: {
-            // jss-expand gives more readable syntax
-            top: 5,
-            right: 0,
-            bottom: 0,
-            left: '1rem'
-        },
-        '& span': {
-            // jss-nested applies this to a child span
-            fontWeight: 'bold' // jss-camel-case turns this into 'font-weight'
-        }
-    },
-    myLabel: {
-        fontStyle: 'italic'
-    }
-});
+var styles_1 = require("../../constants/styles");
 var getNumOfRampsWithMaterial = function (rampsInTheView, material) {
     return rampsInTheView.features.filter(function (r) { return r.properties.material === material; }).length;
 };
@@ -96,34 +76,33 @@ var RightPanel = function () {
         numOfRampsSizeLookUp.set(interval[0] + "-" + interval[1], count);
         pieChartDataForRampSize.push({ angle: count });
     });
-    var classes = useStyles();
-    return (react_1.default.createElement("div", { className: "right-panel" },
-        react_1.default.createElement("table", { className: "ramps-table" },
+    return (react_1.default.createElement("div", { className: styles_1.rightPanel },
+        react_1.default.createElement("table", { className: styles_1.rampsTable },
             react_1.default.createElement("thead", null,
                 react_1.default.createElement("tr", null,
-                    react_1.default.createElement("th", null, "Construction material"),
-                    react_1.default.createElement("th", null, "Number of ramps"))),
+                    react_1.default.createElement("th", { className: styles_1.rampsTableHeader }, "Material"),
+                    react_1.default.createElement("th", { className: styles_1.rampsTableHeader }, "Number of ramps"))),
             react_1.default.createElement("tbody", null, materials.map(function (constructionMaterial) { return (react_1.default.createElement("tr", null,
                 react_1.default.createElement("th", { className: selectedAttributes.includes(constructionMaterial)
-                        ? "selected"
-                        : "unselected", onClick: function () {
+                        ? styles_1.selectedProp
+                        : styles_1.unselectedProp, onClick: function () {
                         return handleMaterialPropertyClick(constructionMaterial);
                     } }, constructionMaterial),
                 react_1.default.createElement("th", null, numOfRampsMaterialLookUp.get(constructionMaterial)))); }))),
         react_1.default.createElement(react_vis_1.RadialChart, { data: pieChartDataForRampMaterial, width: 280, height: 280 }),
-        react_1.default.createElement("table", { className: "ramps-table" },
+        react_1.default.createElement("table", { className: styles_1.rampsTable },
             react_1.default.createElement("thead", null,
                 react_1.default.createElement("tr", null,
-                    react_1.default.createElement("th", null, "Size category"),
-                    react_1.default.createElement("th", null, "Number of ramps"))),
+                    react_1.default.createElement("th", { className: styles_1.rampsTableHeader }, "Size category"),
+                    react_1.default.createElement("th", { className: styles_1.rampsTableHeader }, "Number of ramps"))),
             react_1.default.createElement("tbody", null, Array.from(sizeIntervals).map(function (interval) { return (react_1.default.createElement("tr", null,
                 react_1.default.createElement("th", { className: selectedAttributes.includes(interval[0] + "-" + interval[1])
-                        ? "selected"
-                        : "unselected", onClick: function () {
+                        ? styles_1.selectedProp
+                        : styles_1.unselectedProp, onClick: function () {
                         return handleSizePropertyClick(interval[0] + "-" + interval[1]);
                     } }, interval[0] + "-" + interval[1]),
                 react_1.default.createElement("th", null, numOfRampsSizeLookUp.get(interval[0] + "-" + interval[1])))); }))),
         react_1.default.createElement(react_vis_1.RadialChart, { data: pieChartDataForRampSize, width: 280, height: 280 }),
-        react_1.default.createElement("button", { className: classes.myButton, onClick: function () { return clearPropertySelection(); } }, "Clear Selection")));
+        react_1.default.createElement("button", { className: styles_1.clearButton, onClick: function () { return clearPropertySelection(); } }, "Clear Selection")));
 };
 exports.default = react_redux_1.connect()(RightPanel);

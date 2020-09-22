@@ -1,7 +1,8 @@
 import { LatLngBounds } from "leaflet";
+import { MultiPolygon } from "geojson";
 
 export type GlobalState = {
-  ramps: GeoJSON.FeatureCollection<any>;
+  ramps: GeoJSON.FeatureCollection<MultiPolygon>;
   materials: string[];
   sizeIntervals: number[][];
   selectedMaterials: string[];

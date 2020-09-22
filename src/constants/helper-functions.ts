@@ -1,59 +1,39 @@
 import { LatLngBounds } from "leaflet";
+import { MultiPolygon } from "geojson";
 
-const shouldRampBeIncluded = (
-  feature: any,
+const isMaterialOk = (feature: any,
   selectedMaterials: string[],
-  selectedSizes: number[][],
-  bounds?: LatLngBounds
-): boolean => {
-  if (selectedMaterials && selectedMaterials.length) {
-    if (!selectedMaterials.includes(feature.properties.material)) {
-      return false;
-    }
-  }
+) => selectedMaterials.length === 0 || selectedMaterials.includes(feature.properties.material)
 
-  if (selectedSizes && selectedSizes.length) {
-    if (
-      !selectedSizes.some(
-        (interval: number[]) =>
-          feature.properties.area_ >= interval[0] &&
-          feature.properties.area_ < interval[1]
-      )
-    ) {
-      return false;
-    }
+const isSizeOk = (feature: any, selectedSizes: number[][],) => selectedSizes.length === 0 || selectedSizes.some(
+  (interval: number[]) =>
+    feature.properties.area_ >= interval[0] &&
+    feature.properties.area_ < interval[1]
+)
+const isBoundsOk = (feature: any, bounds?: LatLngBounds) => {
+  if (!bounds) {
+    return true;
   }
-
-  if (
-    bounds &&
-    !feature.geometry.coordinates[0][0].some((c: number[]) =>
+  else {
+    return feature.geometry.coordinates[0][0].some((c: number[]) =>
       bounds.contains([c[1], c[0]])
-    )
-  ) {
-    return false;
+    );
   }
+}
 
-  return true;
-};
+// bounds && feature.geometry.coordinates[0][0].some((c: number[]) =>
+//     bounds.contains([c[1], c[0]])
+//   )
 
 export const getRampsToDisplay = (
-  allRamps: GeoJSON.FeatureCollection<any>,
+  allRamps: GeoJSON.FeatureCollection<MultiPolygon>,
   selectedMaterials: string[],
   selectedSizes: number[][],
   bounds?: LatLngBounds
-): GeoJSON.FeatureCollection<any> => {
-  const rampsToDisplay: GeoJSON.FeatureCollection<any> = {
-    type: "FeatureCollection",
-    features: [],
-  };
-
-  allRamps.features.forEach((feature: any) => {
-    if (
-      shouldRampBeIncluded(feature, selectedMaterials, selectedSizes, bounds)
-    ) {
-      rampsToDisplay.features.push(feature);
-    }
-  });
-
-  return rampsToDisplay;
-};
+): GeoJSON.FeatureCollection<MultiPolygon> => ({
+  type: "FeatureCollection",
+  features: allRamps.features.filter(feature =>
+    isMaterialOk(feature, selectedMaterials) &&
+    isSizeOk(feature, selectedSizes) &&
+    isBoundsOk(feature, bounds))
+});

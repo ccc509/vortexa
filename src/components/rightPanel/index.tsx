@@ -1,4 +1,3 @@
-import "./style.css";
 import React, { useState } from "react";
 import {
   clearSelection,
@@ -10,30 +9,11 @@ import { GlobalState } from "../../constants/type-helpers";
 import { RadialChart } from "react-vis";
 import { getRampsToDisplay } from "../../constants/helper-functions";
 import { LatLngBounds } from "leaflet";
-import {createUseStyles} from 'react-jss';
-
-const useStyles = createUseStyles({
-  myButton: {
-    color: 'green',
-    margin: {
-      // jss-expand gives more readable syntax
-      top: 5, // jss-default-unit makes this 5px
-      right: 0,
-      bottom: 0,
-      left: '1rem'
-    },
-    '& span': {
-      // jss-nested applies this to a child span
-      fontWeight: 'bold' // jss-camel-case turns this into 'font-weight'
-    }
-  },
-  myLabel: {
-    fontStyle: 'italic'
-  }
-})
+import { MultiPolygon } from "geojson";
+import { rightPanel, rampsTable, clearButton, rampsTableHeader, selectedProp, unselectedProp } from "../../constants/styles"
 
 const getNumOfRampsWithMaterial = (
-  rampsInTheView: GeoJSON.FeatureCollection<any>,
+  rampsInTheView: GeoJSON.FeatureCollection<MultiPolygon>,
   material: string
 ) => {
   return rampsInTheView.features.filter(
@@ -42,7 +22,7 @@ const getNumOfRampsWithMaterial = (
 };
 
 const getNumOfRampsInRange = (
-  rampsInTheView: GeoJSON.FeatureCollection<any>,
+  rampsInTheView: GeoJSON.FeatureCollection<MultiPolygon>,
   min: number,
   max: number
 ) => {
@@ -63,7 +43,7 @@ const RightPanel = () => {
   const bounds: LatLngBounds = useSelector(
     (state: GlobalState) => state.bounds
   );
-  const ramps: GeoJSON.FeatureCollection<any> = useSelector(
+  const ramps: GeoJSON.FeatureCollection<MultiPolygon> = useSelector(
     (state: GlobalState) => state.ramps
   );
   const materials: string[] = useSelector(
@@ -120,15 +100,13 @@ const RightPanel = () => {
     pieChartDataForRampSize.push({ angle: count });
   });
 
-  const classes = useStyles();
-
   return (
-    <div className="right-panel">
-      <table className="ramps-table">
+    <div className={rightPanel}>
+      <table className={rampsTable}>
         <thead>
           <tr>
-            <th>Construction material</th>
-            <th>Number of ramps</th>
+            <th className={rampsTableHeader}>Material</th>
+            <th className={rampsTableHeader}>Number of ramps</th>
           </tr>
         </thead>
         <tbody>
@@ -137,8 +115,8 @@ const RightPanel = () => {
               <th
                 className={
                   selectedAttributes.includes(constructionMaterial)
-                    ? "selected"
-                    : "unselected"
+                    ? selectedProp
+                    : unselectedProp
                 }
                 onClick={() =>
                   handleMaterialPropertyClick(constructionMaterial)
@@ -156,11 +134,11 @@ const RightPanel = () => {
         width={280}
         height={280}
       />
-      <table className="ramps-table">
+      <table className={rampsTable}>
         <thead>
           <tr>
-            <th>Size category</th>
-            <th>Number of ramps</th>
+            <th className={rampsTableHeader}>Size category</th>
+            <th className={rampsTableHeader}>Number of ramps</th>
           </tr>
         </thead>
         <tbody>
@@ -169,8 +147,8 @@ const RightPanel = () => {
               <th
                 className={
                   selectedAttributes.includes(interval[0] + "-" + interval[1])
-                    ? "selected"
-                    : "unselected"
+                    ? selectedProp
+                    : unselectedProp
                 }
                 onClick={() =>
                   handleSizePropertyClick(interval[0] + "-" + interval[1])
@@ -186,7 +164,12 @@ const RightPanel = () => {
         </tbody>
       </table>
       <RadialChart data={pieChartDataForRampSize} width={280} height={280} />
-      <button className={classes.myButton} onClick={() => clearPropertySelection()}>Clear Selection</button>
+      <button
+        className={clearButton}
+        onClick={() => clearPropertySelection()}
+      >
+        Clear Selection
+      </button>
     </div>
   );
 };

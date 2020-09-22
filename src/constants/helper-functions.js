@@ -1,37 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getRampsToDisplay = void 0;
-var shouldRampBeIncluded = function (feature, selectedMaterials, selectedSizes, bounds) {
-    if (selectedMaterials && selectedMaterials.length) {
-        if (!selectedMaterials.includes(feature.properties.material)) {
-            return false;
-        }
+var isMaterialOk = function (feature, selectedMaterials) { return selectedMaterials.length === 0 || selectedMaterials.includes(feature.properties.material); };
+var isSizeOk = function (feature, selectedSizes) { return selectedSizes.length === 0 || selectedSizes.some(function (interval) {
+    return feature.properties.area_ >= interval[0] &&
+        feature.properties.area_ < interval[1];
+}); };
+var isBoundsOk = function (feature, bounds) {
+    if (!bounds) {
+        return true;
     }
-    if (selectedSizes && selectedSizes.length) {
-        if (!selectedSizes.some(function (interval) {
-            return feature.properties.area_ >= interval[0] &&
-                feature.properties.area_ < interval[1];
-        })) {
-            return false;
-        }
-    }
-    if (bounds &&
-        !feature.geometry.coordinates[0][0].some(function (c) {
+    else {
+        return feature.geometry.coordinates[0][0].some(function (c) {
             return bounds.contains([c[1], c[0]]);
-        })) {
-        return false;
+        });
     }
-    return true;
 };
-exports.getRampsToDisplay = function (allRamps, selectedMaterials, selectedSizes, bounds) {
-    var rampsToDisplay = {
-        type: "FeatureCollection",
-        features: [],
-    };
-    allRamps.features.forEach(function (feature) {
-        if (shouldRampBeIncluded(feature, selectedMaterials, selectedSizes, bounds)) {
-            rampsToDisplay.features.push(feature);
-        }
-    });
-    return rampsToDisplay;
-};
+// bounds && feature.geometry.coordinates[0][0].some((c: number[]) =>
+//     bounds.contains([c[1], c[0]])
+//   )
+exports.getRampsToDisplay = function (allRamps, selectedMaterials, selectedSizes, bounds) { return ({
+    type: "FeatureCollection",
+    features: allRamps.features.filter(function (feature) {
+        return isMaterialOk(feature, selectedMaterials) &&
+            isSizeOk(feature, selectedSizes) &&
+            isBoundsOk(feature, bounds);
+    })
+}); };
