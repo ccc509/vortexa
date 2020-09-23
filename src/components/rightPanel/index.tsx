@@ -4,13 +4,20 @@ import {
   selectMaterial,
   selectSize,
 } from "../../redux/actions/boatMapActions";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { GlobalState } from "../../constants/type-helpers";
+import { useDispatch } from "react-redux";
 import { RadialChart } from "react-vis";
 import { getRampsToDisplay } from "../../constants/helper-functions";
 import { LatLngBounds } from "leaflet";
 import { MultiPolygon } from "geojson";
-import { rightPanel, rampsTable, clearButton, rampsTableHeader, selectedProp, unselectedProp } from "../../constants/styles"
+import {
+  rightPanel,
+  rampsTable,
+  clearButton,
+  rampsTableHeader,
+  selectedProp,
+  unselectedProp,
+} from "../../constants/styles";
+import { useTypedSelector } from "../../redux/reducers/boatMapReducer";
 
 const getNumOfRampsWithMaterial = (
   rampsInTheView: GeoJSON.FeatureCollection<MultiPolygon>,
@@ -34,23 +41,19 @@ const getNumOfRampsInRange = (
 const RightPanel = () => {
   const [selectedAttributes, setSelectedAttributes] = useState<string[]>([]);
 
-  const selectedMaterials: string[] = useSelector(
-    (state: GlobalState) => state.selectedMaterials
+  const selectedMaterials: string[] = useTypedSelector(
+    (state) => state.selectedMaterials
   );
-  const selectedSizes: number[][] = useSelector(
-    (state: GlobalState) => state.selectedSizes
+  const selectedSizes: number[][] = useTypedSelector(
+    (state) => state.selectedSizes
   );
-  const bounds: LatLngBounds = useSelector(
-    (state: GlobalState) => state.bounds
+  const bounds: LatLngBounds = useTypedSelector((state) => state.bounds);
+  const ramps: GeoJSON.FeatureCollection<MultiPolygon> = useTypedSelector(
+    (state) => state.ramps
   );
-  const ramps: GeoJSON.FeatureCollection<MultiPolygon> = useSelector(
-    (state: GlobalState) => state.ramps
-  );
-  const materials: string[] = useSelector(
-    (state: GlobalState) => state.materials
-  );
-  const sizeIntervals: number[][] = useSelector(
-    (state: GlobalState) => state.sizeIntervals
+  const materials: string[] = useTypedSelector((state) => state.materials);
+  const sizeIntervals: number[][] = useTypedSelector(
+    (state) => state.sizeIntervals
   );
   const rampsInTheView = getRampsToDisplay(
     ramps,
@@ -164,14 +167,11 @@ const RightPanel = () => {
         </tbody>
       </table>
       <RadialChart data={pieChartDataForRampSize} width={280} height={280} />
-      <button
-        className={clearButton}
-        onClick={() => clearPropertySelection()}
-      >
+      <button className={clearButton} onClick={() => clearPropertySelection()}>
         Clear Selection
       </button>
     </div>
   );
 };
 
-export default connect()(RightPanel);
+export { RightPanel };

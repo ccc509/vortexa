@@ -31,7 +31,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint-fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
-    "lint-fix-win": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
+    "lint-fix-win": "eslint src/**/*.{ts,tsx} --fix",
     "lint-prettier": "prettier --check \"src/**/*.{css,js,jsx,ts,tsx,scss}\"",
     "lint-prettier-fix": "prettier --write \"src/**/*.{css,js,jsx,ts,tsx,scss}\""
   },

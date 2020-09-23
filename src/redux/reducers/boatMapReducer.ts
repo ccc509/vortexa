@@ -5,6 +5,8 @@ import {
   CLEAR_SELECTION,
 } from "../actionTypes";
 
+import { TypedUseSelectorHook, useSelector } from "react-redux";
+
 import { GlobalState, Action } from "../../constants/type-helpers";
 
 export default function boatMapReducer(state: GlobalState, action: Action) {
@@ -37,3 +39,5 @@ export default function boatMapReducer(state: GlobalState, action: Action) {
       return state;
   }
 }
+
+export const useTypedSelector: TypedUseSelectorHook<GlobalState> = useSelector;

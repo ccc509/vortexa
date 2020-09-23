@@ -15,7 +15,7 @@ export default function congifureStore() {
       [200, 526],
     ],
     selectedMaterials: [],
-    selectedSizes: []
+    selectedSizes: [],
   };
 
   return createStore(rootReducer, initialState);
