@@ -7,7 +7,7 @@ import {
 import { useDispatch } from "react-redux";
 import { RadialChart } from "react-vis";
 import { getRampsToDisplay } from "../../constants/helper-functions";
-import { LatLngBounds } from "leaflet";
+import { LatLngBounds, map } from "leaflet";
 import { MultiPolygon } from "geojson";
 import {
   rightPanel,
@@ -18,6 +18,7 @@ import {
   unselectedProp,
 } from "../../constants/styles";
 import { useTypedSelector } from "../../redux/reducers/boatMapReducer";
+import { CategoryTable } from "./categoryTable";
 
 const getNumOfRampsWithMaterial = (
   rampsInTheView: GeoJSON.FeatureCollection<MultiPolygon>,
@@ -63,110 +64,39 @@ const RightPanel = () => {
   );
   const dispatch = useDispatch();
 
-  const handleMaterialPropertyClick = (property: string) => {
-    dispatch(selectMaterial(property));
-    const updatedSelectedAttributes = [...selectedAttributes, property];
-    setSelectedAttributes(updatedSelectedAttributes);
-  };
-
-  const handleSizePropertyClick = (property: string) => {
-    dispatch(selectSize(property));
-    const updatedSelectedAttributes = [...selectedAttributes, property];
-    setSelectedAttributes(updatedSelectedAttributes);
-  };
-
   const clearPropertySelection = () => {
     dispatch(clearSelection());
     setSelectedAttributes([]);
   };
 
-  const numOfRampsMaterialLookUp: Map<string, number> = new Map<
+  const rampMaterialLookUp: Map<string, number> = new Map<
     string,
     number
   >();
-  const pieChartDataForRampMaterial: { angle: number }[] = [];
   materials.forEach((material: string) => {
-    const count = getNumOfRampsWithMaterial(rampsInTheView, material);
-    numOfRampsMaterialLookUp.set(material, count);
-    pieChartDataForRampMaterial.push({ angle: count });
+    rampMaterialLookUp.set(material, getNumOfRampsWithMaterial(rampsInTheView, material));
   });
 
-  const numOfRampsSizeLookUp: Map<string, number> = new Map<string, number>();
-  const pieChartDataForRampSize: { angle: number }[] = [];
+  const rampSizeLookUp: Map<string, number> = new Map<
+    string,
+    number
+  >();
   sizeIntervals.forEach((interval: number[]) => {
-    const count = getNumOfRampsInRange(
+    rampSizeLookUp.set(interval[0] + "-" + interval[1], getNumOfRampsInRange(
       rampsInTheView,
       interval[0],
       interval[1]
-    );
-    numOfRampsSizeLookUp.set(interval[0] + "-" + interval[1], count);
-    pieChartDataForRampSize.push({ angle: count });
+    ));
   });
 
   return (
     <div className={rightPanel}>
-      <table className={rampsTable}>
-        <thead>
-          <tr>
-            <th className={rampsTableHeader}>Material</th>
-            <th className={rampsTableHeader}>Number of ramps</th>
-          </tr>
-        </thead>
-        <tbody>
-          {materials.map((constructionMaterial: string) => (
-            <tr>
-              <th
-                className={
-                  selectedAttributes.includes(constructionMaterial)
-                    ? selectedProp
-                    : unselectedProp
-                }
-                onClick={() =>
-                  handleMaterialPropertyClick(constructionMaterial)
-                }
-              >
-                {constructionMaterial}
-              </th>
-              <th>{numOfRampsMaterialLookUp.get(constructionMaterial)}</th>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <RadialChart
-        data={pieChartDataForRampMaterial}
-        width={280}
-        height={280}
-      />
-      <table className={rampsTable}>
-        <thead>
-          <tr>
-            <th className={rampsTableHeader}>Size category</th>
-            <th className={rampsTableHeader}>Number of ramps</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Array.from(sizeIntervals).map((interval: number[]) => (
-            <tr>
-              <th
-                className={
-                  selectedAttributes.includes(interval[0] + "-" + interval[1])
-                    ? selectedProp
-                    : unselectedProp
-                }
-                onClick={() =>
-                  handleSizePropertyClick(interval[0] + "-" + interval[1])
-                }
-              >
-                {interval[0] + "-" + interval[1]}
-              </th>
-              <th>
-                {numOfRampsSizeLookUp.get(interval[0] + "-" + interval[1])}
-              </th>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <RadialChart data={pieChartDataForRampSize} width={280} height={280} />
+      <CategoryTable categoryLookUp = {rampMaterialLookUp} title = "Material" selectAction = {selectMaterial} selectedAttributes={selectedMaterials}/>
+      <CategoryTable 
+        categoryLookUp = {rampSizeLookUp} 
+        title = "Size Interval" 
+        selectAction = {selectSize} 
+        selectedAttributes={selectedSizes.map((interval : number[]) => interval[0] + "-" + interval[1])}/>
       <button className={clearButton} onClick={() => clearPropertySelection()}>
         Clear Selection
       </button>
