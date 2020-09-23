@@ -1,14 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRampsToDisplay = void 0;
+exports.getNumOfRampsInRange = exports.getNumOfRampsWithMaterial = exports.getRampsToDisplay = void 0;
 var isMaterialOk = function (feature, selectedMaterials) {
     return selectedMaterials.length === 0 ||
-        selectedMaterials.includes(feature.properties.material);
+        (feature.properties &&
+            selectedMaterials.includes(feature.properties.material));
 };
 var isSizeOk = function (feature, selectedSizes) {
     return selectedSizes.length === 0 ||
         selectedSizes.some(function (interval) {
-            return feature.properties.area_ >= interval[0] &&
+            return feature.properties &&
+                feature.properties.area_ >= interval[0] &&
                 feature.properties.area_ < interval[1];
         });
 };
@@ -22,9 +24,6 @@ var isBoundsOk = function (feature, bounds) {
         });
     }
 };
-// bounds && feature.geometry.coordinates[0][0].some((c: number[]) =>
-//     bounds.contains([c[1], c[0]])
-//   )
 exports.getRampsToDisplay = function (allRamps, selectedMaterials, selectedSizes, bounds) { return ({
     type: "FeatureCollection",
     features: allRamps.features.filter(function (feature) {
@@ -33,3 +32,13 @@ exports.getRampsToDisplay = function (allRamps, selectedMaterials, selectedSizes
             isBoundsOk(feature, bounds);
     }),
 }); };
+exports.getNumOfRampsWithMaterial = function (rampsInTheView, material) {
+    return rampsInTheView.features.filter(function (r) {
+        return r.properties && r.properties.material === material;
+    }).length;
+};
+exports.getNumOfRampsInRange = function (rampsInTheView, min, max) {
+    return rampsInTheView.features.filter(function (r) {
+        return r.properties && r.properties.area_ >= min && r.properties.area_ < max;
+    }).length;
+};

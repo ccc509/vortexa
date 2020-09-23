@@ -1,34 +1,28 @@
-import { LatLngBounds } from "leaflet";
 import {
-  ZOOM_MAP,
+  CLEAR_SELECTION,
   SELECT_MATERIAL,
   SELECT_SIZE,
-  CLEAR_SELECTION,
+  ZOOM_MAP,
 } from "../actionTypes";
 
-export function zoomMap(bounds: LatLngBounds) {
-  return {
+import { LatLngBounds } from "leaflet";
+
+export const zoomMap = (bounds: LatLngBounds) => ({
     type: ZOOM_MAP,
     bounds,
-  };
-}
+  });
 
-export function selectMaterial(material: string) {
-  return {
+export const selectMaterial = (material: string) => ({
     type: SELECT_MATERIAL,
     material,
-  };
-}
+  });
 
-export function selectSize(size: string) {
-  return {
+export const selectSize = (size: string) => ({
     type: SELECT_SIZE,
     size,
-  };
-}
+  })
 
-export function clearSelection() {
-  return {
+export const clearSelection = () => ({
     type: CLEAR_SELECTION,
-  };
-}
+  });
+

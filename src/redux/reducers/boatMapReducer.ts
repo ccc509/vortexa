@@ -1,15 +1,13 @@
+import { Action, GlobalState } from "../../constants/types";
 import {
-  ZOOM_MAP,
+  CLEAR_SELECTION,
   SELECT_MATERIAL,
   SELECT_SIZE,
-  CLEAR_SELECTION,
+  ZOOM_MAP,
 } from "../actionTypes";
-
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 
-import { GlobalState, Action } from "../../constants/type-helpers";
-
-export default function boatMapReducer(state: GlobalState, action: Action) {
+export function boatMapReducer(state: GlobalState, action: Action) {
   switch (action.type) {
     case ZOOM_MAP:
       return {
@@ -20,8 +18,6 @@ export default function boatMapReducer(state: GlobalState, action: Action) {
       return {
         ...state,
         selectedMaterials: [...state.selectedMaterials, action.material],
-      };
-    case SELECT_SIZE:
       const min = action.size.split("-")[0];
       const max = action.size.split("-")[1];
 

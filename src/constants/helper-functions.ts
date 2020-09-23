@@ -1,18 +1,29 @@
 import { LatLngBounds } from "leaflet";
-import { MultiPolygon } from "geojson";
+import { Feature, GeoJsonProperties, MultiPolygon } from "geojson";
 
-const isMaterialOk = (feature: any, selectedMaterials: string[]) =>
+const isMaterialOk = (
+  feature: Feature<MultiPolygon, GeoJsonProperties>,
+  selectedMaterials: string[]
+) =>
   selectedMaterials.length === 0 ||
-  selectedMaterials.includes(feature.properties.material);
+  (feature.properties &&
+    selectedMaterials.includes(feature.properties.material));
 
-const isSizeOk = (feature: any, selectedSizes: number[][]) =>
+const isSizeOk = (
+  feature: Feature<MultiPolygon, GeoJsonProperties>,
+  selectedSizes: number[][]
+) =>
   selectedSizes.length === 0 ||
   selectedSizes.some(
     (interval: number[]) =>
+      feature.properties &&
       feature.properties.area_ >= interval[0] &&
       feature.properties.area_ < interval[1]
   );
-const isBoundsOk = (feature: any, bounds?: LatLngBounds) => {
+const isBoundsOk = (
+  feature: Feature<MultiPolygon, GeoJsonProperties>,
+  bounds?: LatLngBounds
+) => {
   if (!bounds) {
     return true;
   } else {
@@ -21,10 +32,6 @@ const isBoundsOk = (feature: any, bounds?: LatLngBounds) => {
     );
   }
 };
-
-// bounds && feature.geometry.coordinates[0][0].some((c: number[]) =>
-//     bounds.contains([c[1], c[0]])
-//   )
 
 export const getRampsToDisplay = (
   allRamps: GeoJSON.FeatureCollection<MultiPolygon>,
@@ -40,3 +47,24 @@ export const getRampsToDisplay = (
       isBoundsOk(feature, bounds)
   ),
 });
+
+export const getNumOfRampsWithMaterial = (
+  rampsInTheView: GeoJSON.FeatureCollection<MultiPolygon>,
+  material: string
+) => {
+  return rampsInTheView.features.filter(
+    (r: Feature<MultiPolygon, GeoJsonProperties>) =>
+      r.properties && r.properties.material === material
+  ).length;
+};
+
+export const getNumOfRampsInRange = (
+  rampsInTheView: GeoJSON.FeatureCollection<MultiPolygon>,
+  min: number,
+  max: number
+) => {
+  return rampsInTheView.features.filter(
+    (r: Feature<MultiPolygon, GeoJsonProperties>) =>
+      r.properties && r.properties.area_ >= min && r.properties.area_ < max
+  ).length;
+};

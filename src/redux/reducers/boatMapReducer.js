@@ -18,7 +18,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useTypedSelector = void 0;
+exports.useTypedSelector = exports.boatMapReducer = void 0;
 var actionTypes_1 = require("../actionTypes");
 var react_redux_1 = require("react-redux");
 function boatMapReducer(state, action) {
@@ -37,5 +37,5 @@ function boatMapReducer(state, action) {
             return state;
     }
 }
-exports.default = boatMapReducer;
+exports.boatMapReducer = boatMapReducer;
 exports.useTypedSelector = react_redux_1.useSelector;

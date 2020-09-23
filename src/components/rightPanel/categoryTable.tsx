@@ -1,31 +1,27 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { RadialChart } from "react-vis";
 import {
-  rightPanel,
   rampsTable,
   rampsTableHeader,
+  rightPanel,
   selectedProp,
   unselectedProp,
 } from "../../constants/styles";
 
-type Props = {
-    categoryLookUp : Map<string, number>;
-    title : string; 
-    selectAction: Function;
-    selectedAttributes: string[]
-}
+import { RadialChart } from "react-vis";
+import React from "react";
+import { useDispatch } from "react-redux";
 
-const CategoryTable = (props : Props) => {
-  const {categoryLookUp, title, selectAction, selectedAttributes} = props;
-  console.log()
+type Props = {
+  categoryLookUp: Array<{ name: string, count: number }>;
+  title: string;
+  selectAction: Function;
+  selectedAttributes: string[];
+};
+
+const CategoryTable = (props: Props) => {
+  const { categoryLookUp, title, selectAction, selectedAttributes } = props;
   const dispatch = useDispatch();
 
-  const handleClick = (property: string) => {
-    dispatch(selectAction(property));
-  };
-
-  const pieChartData = Array.from(categoryLookUp.values()).map(count => ({angle: count}));
+  const pieChartData = categoryLookUp.map(i => ({ angle: i.count}));
 
   return (
     <div className={rightPanel}>
@@ -37,28 +33,22 @@ const CategoryTable = (props : Props) => {
           </tr>
         </thead>
         <tbody>
-          {Array.from(categoryLookUp.keys()).map((c: string) => (
+          {categoryLookUp.map(i => (
             <tr>
               <th
                 className={
-                  selectedAttributes.includes(c)
-                    ? selectedProp
-                    : unselectedProp
+                  selectedAttributes.includes(i.name) ? selectedProp : unselectedProp
                 }
-                onClick={() => handleClick(c)}
+                onClick={() => dispatch(selectAction(i.name))}
               >
-                {c}
+                {i.name}
               </th>
-              <th>{categoryLookUp.get(c)}</th>
+              <th>{i.count}</th>
             </tr>
           ))}
         </tbody>
       </table>
-      <RadialChart
-        data={pieChartData}
-        width={280}
-        height={280}
-      />
+      <RadialChart data={pieChartData} width={280} height={280} />
     </div>
   );
 };
