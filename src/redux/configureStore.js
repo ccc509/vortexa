@@ -10,9 +10,9 @@ export default function congifureStore() {
     ramps,
     materials: Array.from(materialSet),
     sizeIntervals: [
-      [0, 50],
-      [50, 200],
-      [200, 526],
+      { min: 0, max: 50 },
+      { min: 50, max: 200 },
+      { min: 200, max: 526 },
     ],
     selectedMaterials: [],
     selectedSizes: [],

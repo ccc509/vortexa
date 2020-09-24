@@ -11,7 +11,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 type Props = {
-  categoryLookUp: Array<{ name: string, count: number }>;
+  categoryLookUp: Array<{ name: string; count: number }>;
   title: string;
   selectAction: Function;
   selectedAttributes: string[];
@@ -21,7 +21,7 @@ const CategoryTable = (props: Props) => {
   const { categoryLookUp, title, selectAction, selectedAttributes } = props;
   const dispatch = useDispatch();
 
-  const pieChartData = categoryLookUp.map(i => ({ angle: i.count}));
+  const pieChartData = categoryLookUp.map((i) => ({ angle: i.count }));
 
   return (
     <div className={rightPanel}>
@@ -33,11 +33,13 @@ const CategoryTable = (props: Props) => {
           </tr>
         </thead>
         <tbody>
-          {categoryLookUp.map(i => (
+          {categoryLookUp.map((i) => (
             <tr>
               <th
                 className={
-                  selectedAttributes.includes(i.name) ? selectedProp : unselectedProp
+                  selectedAttributes.includes(i.name)
+                    ? selectedProp
+                    : unselectedProp
                 }
                 onClick={() => dispatch(selectAction(i.name))}
               >

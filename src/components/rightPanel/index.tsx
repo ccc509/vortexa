@@ -1,3 +1,5 @@
+import React from "react";
+import { useDispatch } from "react-redux";
 import { clearButton, rightPanel } from "../../constants/styles";
 import {
   clearSelection,
@@ -11,21 +13,15 @@ import {
 } from "../../constants/helper-functions";
 
 import { CategoryTable } from "./categoryTable";
-import React from "react";
-import { useDispatch } from "react-redux";
 import { useTypedSelector } from "../../redux/reducers/boatMapReducer";
 
 const RightPanel = () => {
   const selectedMaterials = useTypedSelector(
     (state) => state.selectedMaterials
   );
-  const selectedSizes = useTypedSelector(
-    (state) => state.selectedSizes
-  );
+  const selectedSizes = useTypedSelector((state) => state.selectedSizes);
   const bounds = useTypedSelector((state) => state.bounds);
-  const ramps = useTypedSelector(
-    (state) => state.ramps
-  );
+  const ramps = useTypedSelector((state) => state.ramps);
 
   const rampsInTheView = getRampsToDisplay(
     ramps,
@@ -33,14 +29,16 @@ const RightPanel = () => {
     selectedSizes,
     bounds
   );
-  const materialLookups = useTypedSelector((state) => state.materials.map(material => ({
+  const materialLookups = useTypedSelector((state) =>
+    state.materials.map((material) => ({
       name: material,
-      count: getNumOfRampsWithMaterial(rampsInTheView, material)
-  })));
-  const rampSize = useTypedSelector(
-    (state) => state.sizeIntervals.map(interval => ({
-      name: interval[0] + "-" + interval[1],
-      count: getNumOfRampsInRange(rampsInTheView, interval[0], interval[1])
+      count: getNumOfRampsWithMaterial(rampsInTheView, material),
+    }))
+  );
+  const rampSize = useTypedSelector((state) =>
+    state.sizeIntervals.map((interval) => ({
+      name: `${interval.min}-${interval.max}`,
+      count: getNumOfRampsInRange(rampsInTheView, interval),
     }))
   );
   const dispatch = useDispatch();
@@ -58,7 +56,7 @@ const RightPanel = () => {
         title="Size Interval"
         selectAction={selectSize}
         selectedAttributes={selectedSizes.map(
-          (interval: number[]) => interval[0] + "-" + interval[1]
+          (interval) => `${interval.min}-${interval.max}`
         )}
       />
       <button

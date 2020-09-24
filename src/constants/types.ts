@@ -1,18 +1,12 @@
 import { LatLngBounds } from "leaflet";
 import { MultiPolygon } from "geojson";
+import { SizeInterval } from "../redux/types";
 
 export type GlobalState = {
   ramps: GeoJSON.FeatureCollection<MultiPolygon>;
   materials: string[];
-  sizeIntervals: number[][];
+  sizeIntervals: SizeInterval[];
   selectedMaterials: string[];
-  selectedSizes: number[][];
-  bounds: LatLngBounds;
-};
-
-export type Action = {
-  type: string;
-  material: string;
-  size: string;
+  selectedSizes: SizeInterval[];
   bounds: LatLngBounds;
 };

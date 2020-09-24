@@ -1,29 +1,33 @@
-import { Action, GlobalState } from "../../constants/types";
+import { GlobalState } from "../../constants/types";
+
 import {
+  ActionTypes,
   CLEAR_SELECTION,
   SELECT_MATERIAL,
   SELECT_SIZE,
   ZOOM_MAP,
-} from "../actionTypes";
+} from "../types";
+
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 
-export function boatMapReducer(state: GlobalState, action: Action) {
+export function boatMapReducer(state: GlobalState, action: ActionTypes) {
   switch (action.type) {
     case ZOOM_MAP:
       return {
         ...state,
-        bounds: action.bounds,
+        bounds: action.payload,
       };
     case SELECT_MATERIAL:
       return {
         ...state,
-        selectedMaterials: [...state.selectedMaterials, action.material],
-      const min = action.size.split("-")[0];
-      const max = action.size.split("-")[1];
-
+        selectedMaterials: [...state.selectedMaterials, action.payload],
+      };
+    case SELECT_SIZE:
+      const min = action.payload.split("-")[0];
+      const max = action.payload.split("-")[1];
       return {
         ...state,
-        selectedSizes: [...state.selectedSizes, [+min, +max]],
+        selectedSizes: [...state.selectedSizes, { min: +min, max: +max }],
       };
     case CLEAR_SELECTION:
       return {
