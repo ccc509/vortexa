@@ -14,9 +14,9 @@ var boatMapReducer_1 = require("../../redux/reducers/boatMapReducer");
 var RightPanel = function () {
     var selectedMaterials = boatMapReducer_1.useTypedSelector(function (state) { return state.selectedMaterials; });
     var selectedSizes = boatMapReducer_1.useTypedSelector(function (state) { return state.selectedSizes; });
-    var bounds = boatMapReducer_1.useTypedSelector(function (state) { return state.bounds; });
-    var ramps = boatMapReducer_1.useTypedSelector(function (state) { return state.ramps; });
-    var rampsInTheView = helper_functions_1.getRampsToDisplay(ramps, selectedMaterials, selectedSizes, bounds);
+    var rampsInTheView = boatMapReducer_1.useTypedSelector(function (state) {
+        return helper_functions_1.getRampsToDisplay(state.ramps, state.selectedMaterials, state.selectedSizes, state.bounds);
+    });
     var materialLookups = boatMapReducer_1.useTypedSelector(function (state) {
         return state.materials.map(function (material) { return ({
             name: material,

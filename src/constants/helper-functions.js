@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNumOfRampsInRange = exports.getNumOfRampsWithMaterial = exports.getRampsToDisplay = void 0;
+exports.getCentreOfView = exports.getNumOfRampsInRange = exports.getNumOfRampsWithMaterial = exports.getRampsToDisplay = void 0;
 var isMaterialOk = function (feature, selectedMaterials) {
     return selectedMaterials.length === 0 ||
         (feature.properties &&
@@ -25,7 +25,6 @@ var isBoundsOk = function (feature, bounds) {
     }
 };
 exports.getRampsToDisplay = function (allRamps, selectedMaterials, selectedSizes, bounds) {
-    console.log(selectedSizes);
     return {
         type: "FeatureCollection",
         features: allRamps.features.filter(function (feature) {
@@ -36,7 +35,6 @@ exports.getRampsToDisplay = function (allRamps, selectedMaterials, selectedSizes
     };
 };
 exports.getNumOfRampsWithMaterial = function (rampsInTheView, material) {
-    console.log(rampsInTheView);
     return rampsInTheView.features.filter(function (r) {
         return r.properties && r.properties.material === material;
     }).length;
@@ -47,4 +45,20 @@ exports.getNumOfRampsInRange = function (rampsInTheView, interval) {
             r.properties.area_ >= interval.min &&
             r.properties.area_ < interval.max;
     }).length;
+};
+exports.getCentreOfView = function (_a) {
+    var features = _a.features;
+    var avgLat = features
+        .map(function (_a) {
+        var geometry = _a.geometry;
+        return geometry.coordinates[0][0][0][0];
+    })
+        .reduce(function (a, b) { return a + b; }, 0) / features.length;
+    var avgLong = features
+        .map(function (_a) {
+        var geometry = _a.geometry;
+        return geometry.coordinates[0][0][0][1];
+    })
+        .reduce(function (a, b) { return a + b; }, 0) / features.length;
+    return [avgLong, avgLat];
 };

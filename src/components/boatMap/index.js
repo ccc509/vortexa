@@ -30,37 +30,20 @@ var helper_functions_1 = require("../../constants/helper-functions");
 var object_hash_1 = __importDefault(require("object-hash"));
 var boatMapActions_1 = require("../../redux/actions/boatMapActions");
 var boatMapReducer_1 = require("../../redux/reducers/boatMapReducer");
-var getCentreOfView = function (_a) {
-    var features = _a.features;
-    var avgLat = features
-        .map(function (_a) {
-        var geometry = _a.geometry;
-        return geometry.coordinates[0][0][0][0];
-    })
-        .reduce(function (a, b) { return a + b; }, 0) / features.length;
-    var avgLong = features
-        .map(function (_a) {
-        var geometry = _a.geometry;
-        return geometry.coordinates[0][0][0][1];
-    })
-        .reduce(function (a, b) { return a + b; }, 0) / features.length;
-    return [avgLong, avgLat];
-};
 var BoatMap = function () {
     var dispatch = react_redux_1.useDispatch();
-    var selectedMaterials = boatMapReducer_1.useTypedSelector(function (state) { return state.selectedMaterials; });
-    var selectedSizes = boatMapReducer_1.useTypedSelector(function (state) { return state.selectedSizes; });
-    var allRamps = boatMapReducer_1.useTypedSelector(function (state) { return state.ramps; });
-    var rampsToDisplay = helper_functions_1.getRampsToDisplay(allRamps, selectedMaterials, selectedSizes);
-    var _a = react_1.useState(getCentreOfView(allRamps)), center = _a[0], setCenter = _a[1];
+    var rampsToDisplay = boatMapReducer_1.useTypedSelector(function (state) {
+        return helper_functions_1.getRampsToDisplay(state.ramps, state.selectedMaterials, state.selectedSizes);
+    });
+    var _a = react_1.useState(boatMapReducer_1.useTypedSelector(function (state) { return helper_functions_1.getCentreOfView(state.ramps); })), center = _a[0], setCenter = _a[1];
     react_1.useEffect(function () {
         if (rampsToDisplay.features.length > 0) {
-            setCenter(getCentreOfView(rampsToDisplay));
+            setCenter(helper_functions_1.getCentreOfView(rampsToDisplay));
         }
     }, []);
     react_1.useEffect(function () {
         if (rampsToDisplay.features.length > 0) {
-            setCenter(getCentreOfView(rampsToDisplay));
+            setCenter(helper_functions_1.getCentreOfView(rampsToDisplay));
         }
     }, [rampsToDisplay.features.length]);
     return (react_1.default.createElement(react_leaflet_1.Map, { onzoomend: function (e) { return dispatch(boatMapActions_1.zoomMap(e.target.getBounds())); }, center: center, zoom: 10 },

@@ -20,15 +20,15 @@ const RightPanel = () => {
     (state) => state.selectedMaterials
   );
   const selectedSizes = useTypedSelector((state) => state.selectedSizes);
-  const bounds = useTypedSelector((state) => state.bounds);
-  const ramps = useTypedSelector((state) => state.ramps);
-
-  const rampsInTheView = getRampsToDisplay(
-    ramps,
-    selectedMaterials,
-    selectedSizes,
-    bounds
+  const rampsInTheView = useTypedSelector((state) =>
+    getRampsToDisplay(
+      state.ramps,
+      state.selectedMaterials,
+      state.selectedSizes,
+      state.bounds
+    )
   );
+
   const materialLookups = useTypedSelector((state) =>
     state.materials.map((material) => ({
       name: material,
