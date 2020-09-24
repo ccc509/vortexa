@@ -40,7 +40,6 @@ export const getRampsToDisplay = (
   selectedSizes: SizeInterval[],
   bounds?: LatLngBounds
 ): GeoJSON.FeatureCollection<MultiPolygon> => {
-  console.log(selectedSizes);
   return {
     type: "FeatureCollection",
     features: allRamps.features.filter(
