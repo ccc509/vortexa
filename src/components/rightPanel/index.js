@@ -13,11 +13,11 @@ var helper_functions_1 = require("../../constants/helper-functions");
 var categoryTable_1 = require("./categoryTable");
 var boatMapReducer_1 = require("../../redux/reducers/boatMapReducer");
 var RightPanel = function () {
-    var worker = require('workerize-loader!./worker.js');
-    var instance = worker();
-    instance.expensive(1000).then(function (count) {
-        console.log("Ran " + count + " loops");
-    });
+    // const worker = require('workerize-loader!./worker.js');
+    // const instance = worker();
+    // instance.expensive(1000).then((count:any) => {
+    //     console.log(`Ran ${count} loops`)
+    // })
     var selectedMaterials = boatMapReducer_1.useTypedSelector(function (state) { return state.selectedMaterials; });
     var selectedSizes = boatMapReducer_1.useTypedSelector(function (state) { return state.selectedSizes; });
     var rampsInTheView = boatMapReducer_1.useTypedSelector(function (state) {
