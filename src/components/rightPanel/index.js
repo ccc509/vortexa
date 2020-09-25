@@ -39,6 +39,6 @@ var RightPanel = function () {
     return (react_1.default.createElement("div", { className: styles_1.rightPanel },
         react_1.default.createElement(categoryTable_1.CategoryTable, { categoryLookUp: materialLookups, title: "Material", selectAction: boatMapActions_1.selectMaterial, selectedAttributes: selectedMaterials }),
         react_1.default.createElement(categoryTable_1.CategoryTable, { categoryLookUp: rampSize, title: "Size Interval", selectAction: boatMapActions_1.selectSize, selectedAttributes: selectedSizes.map(function (interval) { return interval.min + "-" + interval.max; }) }),
-        react_1.default.createElement("button", { className: styles_1.clearButton, onClick: function () { return dispatch(boatMapActions_1.clearSelection()); } }, "Clear Selection")));
+        react_1.default.createElement("button", { className: styles_1.clearButton, onClick: function () { return dispatch(boatMapActions_1.clearSelection()); }, id: "roxie" }, "Clear Selection")));
 };
 exports.RightPanel = RightPanel;

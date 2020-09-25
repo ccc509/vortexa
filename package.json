@@ -12,6 +12,7 @@
     "geojson": "^0.5.0",
     "leaflet": "^1.6.0",
     "object-hash": "^2.0.3",
+    "puppeteer": "^5.3.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-jss": "^10.4.0",

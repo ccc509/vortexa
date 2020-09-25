@@ -72,6 +72,7 @@ const RightPanel = () => {
       <button
         className={clearButton}
         onClick={() => dispatch(clearSelection())}
+        id = "roxie"
       >
         Clear Selection
       </button>
