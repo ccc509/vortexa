@@ -1,3 +1,5 @@
+/* eslint import/no-webpack-loader-syntax: off */
+
 import React from "react";
 import { useDispatch } from "react-redux";
 import { clearButton, rightPanel } from "../../constants/styles";
@@ -16,6 +18,14 @@ import { CategoryTable } from "./categoryTable";
 import { useTypedSelector } from "../../redux/reducers/boatMapReducer";
 
 const RightPanel = () => {
+
+  const worker = require('workerize-loader!./worker.js');
+  const instance = worker();
+
+  instance.expensive(1000).then((count:any) => {
+      console.log(`Ran ${count} loops`)
+  })
+
   const selectedMaterials = useTypedSelector(
     (state) => state.selectedMaterials
   );

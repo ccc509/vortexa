@@ -1,3 +1,5 @@
+/* eslint import/no-webpack-loader-syntax: off */
+
 import { GeoJSON, Map, TileLayer } from "react-leaflet";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -10,6 +12,9 @@ import { zoomMap } from "../../redux/actions/boatMapActions";
 import { useTypedSelector } from "../../redux/reducers/boatMapReducer";
 
 const BoatMap = () => {
+  const worker = require('workerize-loader!./worker.js');
+  const instance = worker();
+
   const dispatch = useDispatch();
   const rampsToDisplay = useTypedSelector((state) =>
     getRampsToDisplay(state.ramps, state.selectedMaterials, state.selectedSizes)
@@ -17,6 +22,10 @@ const BoatMap = () => {
   const [center, setCenter] = useState(
     useTypedSelector((state) => getCentreOfView(state.ramps))
   );
+
+  instance.expensive(1000).then((count:any) => {
+    console.log(`Ran ${count} loops`)
+  })
 
   useEffect(() => {
     if (rampsToDisplay.features.length > 0) {

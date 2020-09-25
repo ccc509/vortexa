@@ -1,4 +1,5 @@
 "use strict";
+/* eslint import/no-webpack-loader-syntax: off */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -12,6 +13,11 @@ var helper_functions_1 = require("../../constants/helper-functions");
 var categoryTable_1 = require("./categoryTable");
 var boatMapReducer_1 = require("../../redux/reducers/boatMapReducer");
 var RightPanel = function () {
+    var worker = require('workerize-loader!./worker.js');
+    var instance = worker();
+    instance.expensive(1000).then(function (count) {
+        console.log("Ran " + count + " loops");
+    });
     var selectedMaterials = boatMapReducer_1.useTypedSelector(function (state) { return state.selectedMaterials; });
     var selectedSizes = boatMapReducer_1.useTypedSelector(function (state) { return state.selectedSizes; });
     var rampsInTheView = boatMapReducer_1.useTypedSelector(function (state) {
