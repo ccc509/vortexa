@@ -1,7 +1,5 @@
 /* eslint import/no-webpack-loader-syntax: off */
 
-import React from "react";
-import { useDispatch } from "react-redux";
 import { clearButton, rightPanel } from "../../constants/styles";
 import {
   clearSelection,
@@ -15,27 +13,26 @@ import {
 } from "../../constants/helper-functions";
 
 import { CategoryTable } from "./categoryTable";
+import React from "react";
+import { createSelector } from 'reselect';
+import { useDispatch } from "react-redux";
 import { useTypedSelector } from "../../redux/reducers/boatMapReducer";
 
 const RightPanel = () => {
-  // const worker = require('workerize-loader!./worker.js');
-  // const instance = worker();
-
-  // instance.expensive(1000).then((count:any) => {
-  //     console.log(`Ran ${count} loops`)
-  // })
 
   const selectedMaterials = useTypedSelector(
     (state) => state.selectedMaterials
   );
   const selectedSizes = useTypedSelector((state) => state.selectedSizes);
-  const rampsInTheView = useTypedSelector((state) =>
-    getRampsToDisplay(
+  const rampsInTheView = useTypedSelector((state) => {
+    console.log("render");
+
+    return getRampsToDisplay(
       state.ramps,
       state.selectedMaterials,
       state.selectedSizes,
       state.bounds
-    )
+    )}
   );
 
   const materialLookups = useTypedSelector((state) =>
