@@ -18,7 +18,6 @@ import { CategoryTable } from "./categoryTable";
 import { useTypedSelector } from "../../redux/reducers/boatMapReducer";
 
 const RightPanel = () => {
-
   // const worker = require('workerize-loader!./worker.js');
   // const instance = worker();
 
@@ -72,7 +71,7 @@ const RightPanel = () => {
       <button
         className={clearButton}
         onClick={() => dispatch(clearSelection())}
-        id = "roxie"
+        id="clearButton"
       >
         Clear Selection
       </button>

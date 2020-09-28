@@ -12,7 +12,7 @@ import { zoomMap } from "../../redux/actions/boatMapActions";
 import { useTypedSelector } from "../../redux/reducers/boatMapReducer";
 
 const BoatMap = () => {
-  const worker = require('workerize-loader!./worker.js');
+  const worker = require("workerize-loader!./worker.js");
   const instance = worker();
 
   const dispatch = useDispatch();
@@ -23,9 +23,13 @@ const BoatMap = () => {
     useTypedSelector((state) => getCentreOfView(state.ramps))
   );
 
-  instance.expensive(1000).then((count:any) => {
-    console.log(`Ran ${count} loops`)
-  })
+  // instance.expensive(1000).then((count: any) => {
+  //   console.log(`Ran ${count} loops`);
+  // });
+
+  instance.getCentre(rampsToDisplay).then((centre: any) => {
+    console.log(centre);
+  });
 
   useEffect(() => {
     if (rampsToDisplay.features.length > 0) {

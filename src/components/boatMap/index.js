@@ -32,15 +32,18 @@ var object_hash_1 = __importDefault(require("object-hash"));
 var boatMapActions_1 = require("../../redux/actions/boatMapActions");
 var boatMapReducer_1 = require("../../redux/reducers/boatMapReducer");
 var BoatMap = function () {
-    var worker = require('workerize-loader!./worker.js');
+    var worker = require("workerize-loader!./worker.js");
     var instance = worker();
     var dispatch = react_redux_1.useDispatch();
     var rampsToDisplay = boatMapReducer_1.useTypedSelector(function (state) {
         return helper_functions_1.getRampsToDisplay(state.ramps, state.selectedMaterials, state.selectedSizes);
     });
     var _a = react_1.useState(boatMapReducer_1.useTypedSelector(function (state) { return helper_functions_1.getCentreOfView(state.ramps); })), center = _a[0], setCenter = _a[1];
-    instance.expensive(1000).then(function (count) {
-        console.log("Ran " + count + " loops");
+    // instance.expensive(1000).then((count: any) => {
+    //   console.log(`Ran ${count} loops`);
+    // });
+    instance.getCentre(rampsToDisplay).then(function (centre) {
+        console.log(centre);
     });
     react_1.useEffect(function () {
         if (rampsToDisplay.features.length > 0) {
