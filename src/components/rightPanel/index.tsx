@@ -15,26 +15,29 @@ import {
 import { CategoryTable } from "./categoryTable";
 import React from "react";
 import { createSelector } from 'reselect';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTypedSelector } from "../../redux/reducers/boatMapReducer";
+import { GlobalState } from "../../constants/types";
+
+const getRampsInTheView = createSelector(
+  (state: GlobalState) => state.ramps,
+  (state: GlobalState) => state.selectedMaterials,
+  (state: GlobalState) => state.selectedSizes,
+  (state: GlobalState) => state.bounds,
+  (ramps, selectedMaterials, selectedSizes, bounds) => {
+    return getRampsToDisplay(ramps, selectedMaterials, selectedSizes, bounds);
+  }
+);
 
 const RightPanel = () => {
-
   const selectedMaterials = useTypedSelector(
     (state) => state.selectedMaterials
   );
   const selectedSizes = useTypedSelector((state) => state.selectedSizes);
-  const rampsInTheView = useTypedSelector((state) => {
-    console.log("render");
 
-    return getRampsToDisplay(
-      state.ramps,
-      state.selectedMaterials,
-      state.selectedSizes,
-      state.bounds
-    )}
-  );
+  console.log("Rendering right panel");
 
+  const rampsInTheView = useTypedSelector((state) => getRampsInTheView(state));
   const materialLookups = useTypedSelector((state) =>
     state.materials.map((material) => ({
       name: material,

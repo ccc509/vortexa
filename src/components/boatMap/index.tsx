@@ -12,13 +12,15 @@ import { zoomMap } from "../../redux/actions/boatMapActions";
 import { useTypedSelector } from "../../redux/reducers/boatMapReducer";
 
 const BoatMap = () => {
-  const worker = require("workerize-loader!./worker.js");
-  const instance = worker();
+  // const worker = require("workerize-loader!./worker.js");
+  // const instance = worker();
 
   const dispatch = useDispatch();
   const rampsToDisplay = useTypedSelector((state) =>
     getRampsToDisplay(state.ramps, state.selectedMaterials, state.selectedSizes)
   );
+
+  console.log("Rendering boat map");
 
   const [centre, setCentre] = useState(
     useTypedSelector((state) => getCentreOfView(state.ramps))
@@ -26,12 +28,9 @@ const BoatMap = () => {
 
   useEffect(() => {
     if (rampsToDisplay.features.length > 0) {
-      instance.getCentre(rampsToDisplay).then((newCentre: [number, number]) => {
-        console.log("Calculated centre: " + newCentre[0])
-        setCentre(newCentre);
-      });
-    }
-  }, [rampsToDisplay.features]);
+      setCentre(getCentreOfView(rampsToDisplay));
+    };
+  }, [rampsToDisplay.features.length]);
 
   return (
     <Map
