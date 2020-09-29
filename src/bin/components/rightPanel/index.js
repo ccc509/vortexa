@@ -5,22 +5,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RightPanel = void 0;
-var react_1 = __importDefault(require("react"));
-var react_redux_1 = require("react-redux");
 var styles_1 = require("../../constants/styles");
 var boatMapActions_1 = require("../../redux/actions/boatMapActions");
 var helper_functions_1 = require("../../constants/helper-functions");
 var categoryTable_1 = require("./categoryTable");
+var react_1 = __importDefault(require("react"));
+var react_redux_1 = require("react-redux");
 var boatMapReducer_1 = require("../../redux/reducers/boatMapReducer");
 var RightPanel = function () {
-    // const worker = require('workerize-loader!./worker.js');
-    // const instance = worker();
-    // instance.expensive(1000).then((count:any) => {
-    //     console.log(`Ran ${count} loops`)
-    // })
     var selectedMaterials = boatMapReducer_1.useTypedSelector(function (state) { return state.selectedMaterials; });
     var selectedSizes = boatMapReducer_1.useTypedSelector(function (state) { return state.selectedSizes; });
     var rampsInTheView = boatMapReducer_1.useTypedSelector(function (state) {
+        console.log("render");
         return helper_functions_1.getRampsToDisplay(state.ramps, state.selectedMaterials, state.selectedSizes, state.bounds);
     });
     var materialLookups = boatMapReducer_1.useTypedSelector(function (state) {

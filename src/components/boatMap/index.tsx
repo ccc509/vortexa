@@ -19,34 +19,24 @@ const BoatMap = () => {
   const rampsToDisplay = useTypedSelector((state) =>
     getRampsToDisplay(state.ramps, state.selectedMaterials, state.selectedSizes)
   );
-  const [center, setCenter] = useState(
+
+  const [centre, setCentre] = useState(
     useTypedSelector((state) => getCentreOfView(state.ramps))
   );
 
-  // instance.expensive(1000).then((count: any) => {
-  //   console.log(`Ran ${count} loops`);
-  // });
-
-  instance.getCentre(rampsToDisplay).then((centre: any) => {
-    console.log(centre);
-  });
-
   useEffect(() => {
     if (rampsToDisplay.features.length > 0) {
-      setCenter(getCentreOfView(rampsToDisplay));
+      instance.getCentre(rampsToDisplay).then((newCentre: [number, number]) => {
+        console.log("Calculated centre: " + newCentre[0])
+        setCentre(newCentre);
+      });
     }
-  }, []);
-
-  useEffect(() => {
-    if (rampsToDisplay.features.length > 0) {
-      setCenter(getCentreOfView(rampsToDisplay));
-    }
-  }, [rampsToDisplay.features.length]);
+  }, [rampsToDisplay.features]);
 
   return (
     <Map
       onzoomend={(e) => dispatch(zoomMap(e.target.getBounds()))}
-      center={center}
+      center={centre}
       zoom={10}
     >
       <TileLayer

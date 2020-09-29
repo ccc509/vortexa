@@ -38,24 +38,16 @@ var BoatMap = function () {
     var rampsToDisplay = boatMapReducer_1.useTypedSelector(function (state) {
         return helper_functions_1.getRampsToDisplay(state.ramps, state.selectedMaterials, state.selectedSizes);
     });
-    var _a = react_1.useState(boatMapReducer_1.useTypedSelector(function (state) { return helper_functions_1.getCentreOfView(state.ramps); })), center = _a[0], setCenter = _a[1];
-    // instance.expensive(1000).then((count: any) => {
-    //   console.log(`Ran ${count} loops`);
-    // });
-    instance.getCentre(rampsToDisplay).then(function (centre) {
-        console.log(centre);
-    });
+    var _a = react_1.useState(boatMapReducer_1.useTypedSelector(function (state) { return helper_functions_1.getCentreOfView(state.ramps); })), centre = _a[0], setCentre = _a[1];
     react_1.useEffect(function () {
         if (rampsToDisplay.features.length > 0) {
-            setCenter(helper_functions_1.getCentreOfView(rampsToDisplay));
+            instance.getCentre(rampsToDisplay).then(function (newCentre) {
+                console.log("Calculated centre: " + newCentre[0]);
+                setCentre(newCentre);
+            });
         }
-    }, []);
-    react_1.useEffect(function () {
-        if (rampsToDisplay.features.length > 0) {
-            setCenter(helper_functions_1.getCentreOfView(rampsToDisplay));
-        }
-    }, [rampsToDisplay.features.length]);
-    return (react_1.default.createElement(react_leaflet_1.Map, { onzoomend: function (e) { return dispatch(boatMapActions_1.zoomMap(e.target.getBounds())); }, center: center, zoom: 10 },
+    }, [rampsToDisplay.features]);
+    return (react_1.default.createElement(react_leaflet_1.Map, { onzoomend: function (e) { return dispatch(boatMapActions_1.zoomMap(e.target.getBounds())); }, center: centre, zoom: 10 },
         react_1.default.createElement(react_leaflet_1.TileLayer, { url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", attribution: '\u00A9 <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' }),
         react_1.default.createElement(react_leaflet_1.GeoJSON, { key: object_hash_1.default(rampsToDisplay), data: rampsToDisplay })));
 };

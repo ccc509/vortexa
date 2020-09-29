@@ -1,6 +1,6 @@
 import {
   getCentreOfView,
-} from "../../constants/helper-functions";
+} from "../../../constants/helper-functions";
 
 export const expensive = (time) => {
   const result = time + 1;

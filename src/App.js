@@ -1,8 +1,8 @@
 import "./App.css";
 
 import React from "react";
-import { BoatMap } from "./components/boatMap";
-import { RightPanel } from "./components/rightPanel";
+import { BoatMap } from "./bin/components/boatMap";
+import { RightPanel } from "./bin/components/rightPanel";
 
 function App() {
   return (

@@ -1,6 +1,6 @@
-import boatData from "../data/boat_ramps.json";
 import { createStore } from "redux";
-import rootReducer from "./reducers";
+import boatData from "../data/boat_ramps.json";
+import rootReducer from "../bin/redux/reducers";
 
 export default function congifureStore() {
   const ramps = boatData;
