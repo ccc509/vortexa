@@ -48,7 +48,6 @@ exports.getNumOfRampsInRange = function (rampsInTheView, interval) {
 };
 exports.getCentreOfView = function (_a) {
     var features = _a.features;
-    console.log("Recalculating ...." + features.length);
     var avgLat = features
         .map(function (_a) {
         var geometry = _a.geometry;
@@ -63,3 +62,4 @@ exports.getCentreOfView = function (_a) {
         .reduce(function (a, b) { return a + b; }, 0) / features.length;
     return [avgLong, avgLat];
 };
+//# sourceMappingURL=helper-functions.js.map

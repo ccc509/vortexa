@@ -17,3 +17,4 @@ exports.selectSize = function (sizeInterval) { return ({
 exports.clearSelection = function () { return ({
     type: types_1.CLEAR_SELECTION,
 }); };
+//# sourceMappingURL=boatMapActions.js.map

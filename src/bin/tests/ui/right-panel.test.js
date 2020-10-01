@@ -140,10 +140,10 @@ describe("Right panel", function () {
                     return [4 /*yield*/, page.$x(constants_1.NUM_OF_CONCRETE_RAMPS_XPATH)];
                 case 2:
                     numOfConcreteRampsCell = (_a.sent())[0];
-                    // Click gravel cell    
+                    // Click gravel cell
                     return [4 /*yield*/, gravelCell.click()];
                 case 3:
-                    // Click gravel cell    
+                    // Click gravel cell
                     _a.sent();
                     return [4 /*yield*/, page.evaluate(function (h1) { return h1.textContent; }, numOfConcreteRampsCell)];
                 case 4:
@@ -174,3 +174,4 @@ describe("Right panel", function () {
         });
     }); });
 });
+//# sourceMappingURL=right-panel.test.js.map

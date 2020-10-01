@@ -14,12 +14,12 @@ import {
 
 import { CategoryTable } from "./categoryTable";
 import React from "react";
-import { createSelector } from 'reselect';
-import { useDispatch, useSelector } from "react-redux";
+import { createSelector } from "reselect";
+import { useDispatch } from "react-redux";
 import { useTypedSelector } from "../../redux/reducers/boatMapReducer";
 import { GlobalState } from "../../constants/types";
 
-const getRampsInTheView = createSelector(
+const rampsInTheViewSelector = createSelector(
   (state: GlobalState) => state.ramps,
   (state: GlobalState) => state.selectedMaterials,
   (state: GlobalState) => state.selectedSizes,
@@ -29,39 +29,49 @@ const getRampsInTheView = createSelector(
   }
 );
 
+const rampsPerMaterialSelector = createSelector(
+  rampsInTheViewSelector,
+  (state: GlobalState) => state.materials,
+  (ramps, materials) => {
+    return materials.map((material) => ({
+      name: material,
+      count: getNumOfRampsWithMaterial(ramps, material),
+    }));
+  }
+);
+
+const rampsPerSizeIntervalSelector = createSelector(
+  rampsInTheViewSelector,
+  (state: GlobalState) => state.sizeIntervals,
+  (ramps, sizeIntervals) => {
+    return sizeIntervals.map((interval) => ({
+      name: `${interval.min}-${interval.max}`,
+      count: getNumOfRampsInRange(ramps, interval),
+    }));
+  }
+);
+
 const RightPanel = () => {
+  console.log("Rendering right panel");
+
+  const dispatch = useDispatch();
   const selectedMaterials = useTypedSelector(
     (state) => state.selectedMaterials
   );
   const selectedSizes = useTypedSelector((state) => state.selectedSizes);
-
-  console.log("Rendering right panel");
-
-  const rampsInTheView = useTypedSelector((state) => getRampsInTheView(state));
-  const materialLookups = useTypedSelector((state) =>
-    state.materials.map((material) => ({
-      name: material,
-      count: getNumOfRampsWithMaterial(rampsInTheView, material),
-    }))
-  );
-  const rampSize = useTypedSelector((state) =>
-    state.sizeIntervals.map((interval) => ({
-      name: `${interval.min}-${interval.max}`,
-      count: getNumOfRampsInRange(rampsInTheView, interval),
-    }))
-  );
-  const dispatch = useDispatch();
+  const rampsPerMaterial = useTypedSelector(rampsPerMaterialSelector);
+  const rampsPerSizeInterval = useTypedSelector(rampsPerSizeIntervalSelector);
 
   return (
     <div className={rightPanel}>
       <CategoryTable
-        categoryLookUp={materialLookups}
+        categoryLookUp={rampsPerMaterial}
         title="Material"
         selectAction={selectMaterial}
         selectedAttributes={selectedMaterials}
       />
       <CategoryTable
-        categoryLookUp={rampSize}
+        categoryLookUp={rampsPerSizeInterval}
         title="Size Interval"
         selectAction={selectSize}
         selectedAttributes={selectedSizes.map(

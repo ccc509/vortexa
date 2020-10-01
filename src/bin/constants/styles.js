@@ -33,3 +33,4 @@ exports.boatMapx = typestyle_1.style({
     height: 1000,
     float: "left",
 });
+//# sourceMappingURL=styles.js.map

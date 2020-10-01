@@ -39,3 +39,4 @@ function boatMapReducer(state, action) {
 }
 exports.boatMapReducer = boatMapReducer;
 exports.useTypedSelector = react_redux_1.useSelector;
+//# sourceMappingURL=boatMapReducer.js.map

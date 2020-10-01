@@ -2,34 +2,38 @@
 
 import { GeoJSON, Map, TileLayer } from "react-leaflet";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import {
-  getRampsToDisplay,
   getCentreOfView,
+  getRampsToDisplay,
 } from "../../constants/helper-functions";
+
+import { GlobalState } from "../../constants/types";
+import { createSelector } from "reselect";
 import hash from "object-hash";
-import { zoomMap } from "../../redux/actions/boatMapActions";
+import { useDispatch } from "react-redux";
 import { useTypedSelector } from "../../redux/reducers/boatMapReducer";
+import { zoomMap } from "../../redux/actions/boatMapActions";
+
+const rampsInTheViewSelector = createSelector(
+  (state: GlobalState) => state.ramps,
+  (state: GlobalState) => state.selectedMaterials,
+  (state: GlobalState) => state.selectedSizes,
+  (ramps, selectedMaterials, selectedSizes) => getRampsToDisplay(ramps, selectedMaterials, selectedSizes)
+);
 
 const BoatMap = () => {
-  // const worker = require("workerize-loader!./worker.js");
-  // const instance = worker();
-
-  const dispatch = useDispatch();
-  const rampsToDisplay = useTypedSelector((state) =>
-    getRampsToDisplay(state.ramps, state.selectedMaterials, state.selectedSizes)
-  );
-
   console.log("Rendering boat map");
 
-  const [centre, setCentre] = useState(
-    useTypedSelector((state) => getCentreOfView(state.ramps))
-  );
+  const dispatch = useDispatch();
+  const rampsToDisplay = useTypedSelector(rampsInTheViewSelector);
+  
+  const data = useTypedSelector(s => getCentreOfView(s.ramps))
+  const [centre, setCentre] = useState(data);
 
   useEffect(() => {
     if (rampsToDisplay.features.length > 0) {
       setCentre(getCentreOfView(rampsToDisplay));
-    };
+    }
   }, [rampsToDisplay.features.length]);
 
   return (

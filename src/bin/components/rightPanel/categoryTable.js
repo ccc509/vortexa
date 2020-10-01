@@ -26,3 +26,4 @@ var CategoryTable = function (props) {
         react_1.default.createElement(react_vis_1.RadialChart, { data: pieChartData, width: 280, height: 280 })));
 };
 exports.CategoryTable = CategoryTable;
+//# sourceMappingURL=categoryTable.js.map

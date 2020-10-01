@@ -76,7 +76,6 @@ export const getNumOfRampsInRange = (
 export const getCentreOfView = ({
   features,
 }: GeoJSON.FeatureCollection<MultiPolygon>): [number, number] => {
-  console.log("Recalculating ...." + features.length);
   const avgLat =
     features
       .map(({ geometry }) => geometry.coordinates[0][0][0][0])

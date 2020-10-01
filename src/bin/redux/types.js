@@ -5,3 +5,4 @@ exports.ZOOM_MAP = "ZOOM_MAP";
 exports.SELECT_MATERIAL = "SELECT_MATERIAL";
 exports.SELECT_SIZE = "SELECT_SIZE";
 exports.CLEAR_SELECTION = "CLEAR_SELECTION";
+//# sourceMappingURL=types.js.map
