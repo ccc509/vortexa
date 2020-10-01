@@ -1,4 +1,4 @@
-import boatMapReducer from "./boatMapReducer";
+import { boatMapReducer } from "./boatMapReducer";
 
 const rootReducer = boatMapReducer;
 

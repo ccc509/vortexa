@@ -1,4 +1,0 @@
-export const ZOOM_MAP = "ZOOM_MAP";
-export const SELECT_MATERIAL = "SELECT_MATERIAL";
-export const SELECT_SIZE = "SELECT_SIZE";
-export const CLEAR_SELECTION = "CLEAR_SELECTION";

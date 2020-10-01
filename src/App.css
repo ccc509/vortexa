@@ -1,6 +1,15 @@
+@import "../node_modules/react-vis/dist/style.css";
+
 .App {
   text-align: center;
   display: inline-block;
+}
+
+.leaflet-container {
+  min-width: 1000px;
+  height: 100vh;
+  float: left;
+  overflow: hidden;
 }
 
 .App-logo {
